@@ -585,13 +585,13 @@ const ContactHero = () => {
           <div className="bg-[#4A2521] dark:bg-[#1a0505] text-[#EBEBE6] p-8 md:p-12 shadow-2xl relative overflow-hidden">
               
               {/* --- BACKGROUND IMAGE ICON (TRANSPARENT) --- */}
-              <div className="absolute -right-10 top-0 h-full w-40 opacity-40 pointer-events-none flex items-center justify-center select-none">
+              {/* <div className="absolute -right-10 top-0 h-full w-40 opacity-40 pointer-events-none flex items-center justify-center select-none">
                  <img
                    src="/assets/images/fifteen.png" 
                    alt=""
                    className="h-[120%] w-auto object-contain pointer-events-none" 
                  />
-              </div>
+              </div> */}
 
               {/* --- Header --- */}
               <h2 className="font-['Oswald'] text-2xl md:text-3xl mb-8 leading-snug tracking-wide relative z-10 text-white uppercase">
