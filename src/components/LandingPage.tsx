@@ -561,13 +561,23 @@ const ContactHero = () => {
       
       <div className="max-w-7xl mx-auto relative px-6 md:px-0">
         
-        {/* --- Hero Background Image --- */}
-        <div className="w-full h-[50vh] md:h-[90vh]">
-          <img 
-            src="/assets/images/fourteen.png" // Ensure this path is correct in your project
-            alt="Modern building exterior" 
+        {/* --- Hero Background Video --- */}
+        <div className="w-full h-[50vh] md:h-[90vh] overflow-hidden">
+          <video 
             className="w-full h-full object-cover"
-          />
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            poster="/assets/images/fourteen.png" // Optional: Shows while video loads
+          >
+            {/* TODO: Replace with your actual video path */}
+            <source src="/assets/images/contact.mov" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          
+          {/* Optional: Dark overlay to ensure form legibility if video is too bright */}
+          {/* <div className="absolute inset-0 bg-black/20 pointer-events-none" /> */}
         </div>
 
         {/* --- Floating Form Container --- */}
@@ -575,15 +585,10 @@ const ContactHero = () => {
           <div className="bg-[#4A2521] dark:bg-[#1a0505] text-[#EBEBE6] p-8 md:p-12 shadow-2xl relative overflow-hidden">
               
               {/* --- BACKGROUND IMAGE ICON (TRANSPARENT) --- */}
-              {/* The 'opacity-10' class on this container creates the transparent effect.
-                  Ensure your image itself is a transparent PNG or WebP.
-              */}
               <div className="absolute -right-10 top-0 h-full w-40 opacity-40 pointer-events-none flex items-center justify-center select-none">
                  <img
-                   // TODO: Replace with your actual transparent image path
                    src="/assets/images/fifteen.png" 
                    alt=""
-                   // object-contain ensures it fits within the area without distorting
                    className="h-[120%] w-auto object-contain pointer-events-none" 
                  />
               </div>
