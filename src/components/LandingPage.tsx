@@ -573,6 +573,8 @@ const ContactHero = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+     console.log(process.env.RESEND_API_KEY);
+
     // ✅ VALIDATION
     if (!formData.email || !formData.phone || !formData.message) {
       toast.error("Please fill in all required fields.");
