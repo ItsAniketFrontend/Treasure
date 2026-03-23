@@ -10,9 +10,11 @@ const WhatsAppButton = () => {
         w-14 h-14
         bg-[#25D366]
         rounded-full
-        flex items-center justify-center
+         items-center justify-center
         shadow-xl
         z-[9999]
+        
+        hidden md:flex
       "
     >
       <img

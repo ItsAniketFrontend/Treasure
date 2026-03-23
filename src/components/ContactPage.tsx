@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from './ThemeContext';
+import toast from "react-hot-toast";
 
 // --- CONFIGURATION: LOCAL ASSETS ---
 const LOCAL_ASSETS = {
@@ -164,7 +165,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={14} className="text-white/40" />
-                <span className="break-all">Treasure@katewacompanies.in</span>
+                <span className="break-all">admin@katewacompanies.in</span>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={14} className="text-white/40 mt-1" />
@@ -268,11 +269,96 @@ const ContactPage = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [loading, setLoading] = useState(false);
+ 
+   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
 
+    // ✅ VALIDATION
+    if (!formData.email || !formData.phone || !formData.message) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      toast.error("Please enter a valid 10-digit phone number.");
+      return;
+    }
+
+    if (formData.message.length < 10) {
+      toast.error("Message should be at least 10 characters.");
+      return;
+    }
+
+    // 🚀 SUBMIT
+    if (loading) return;
+
+    setLoading(true);
+    const toastId = toast.loading("Sending your enquiry...");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      // ✅ SAFE JSON PARSE (fixes your error)
+      let data;
+
+      try {
+        const contentType = res.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          const text = await res.text();
+          console.error("❌ Non-JSON response:", text);
+          data = { success: false, message: "Server returned invalid response" };
+        }
+
+      } catch (err) {
+        console.error("❌ Parse error:", err);
+        data = { success: false, message: "Response parsing failed" };
+      }
+
+      toast.dismiss(toastId);
+
+      // ✅ Check HTTP status also
+      if (res.ok && data.success) {
+        toast.success(
+          "Your enquiry has been sent successfully. We’ll get back to you shortly."
+        );
+
+        setFormData({
+          email: "",
+          phone: "",
+          message: "",
+        });
+      } else {
+        toast.error(
+          data?.message || "We couldn’t send your enquiry. Please try again."
+        );
+      }
+
+    } catch (err) {
+      toast.dismiss(toastId);
+      toast.error("Something went wrong. Please check your connection.");
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   return (
     <>
       {/* 1. IMPORT FONTS */}
@@ -473,16 +559,24 @@ const ContactPage = () => {
 
                       <button 
                       type="submit" 
-                      className={`mt-8 flex items-center justify-center px-8 py-4 border text-sm font-['Oswald'] font-medium transition-all duration-300 shadow-sm ${
+                      disabled={loading}
+                      className={`
+                        mt-8 flex items-center justify-center px-8 py-4 border text-sm font-['Oswald'] font-medium 
+                        transition-all duration-300 shadow-sm
+                        ${loading 
+                          ? "bg-gray-400 cursor-not-allowed" 
+                          : ""}
+                        ${
                           isDark 
-                              ? 'bg-[#4A2521] border-white/30 hover:bg-white hover:text-[#2A0A0A] text-[#EBEBE6]' 
-                              : 'bg-[#F5F7F8] border-gray-200 hover:border-[#4A3B32] hover:bg-white text-[#4A3B32]'
-                      }`}
-                      >
+                            ? "bg-[#4A2521] border-white/30 hover:bg-white hover:text-[#2A0A0A] text-[#EBEBE6]" 
+                            : "bg-[#F5F7F8] border-gray-200 hover:border-[#4A3B32] hover:bg-white text-[#4A3B32]"
+                        }
+                      `}
+                    >
                       <Mail className={`w-4 h-4 mr-3 ${
                           isDark ? 'text-white' : 'text-gray-400'
                       }`} />
-                      Send Us A Message
+                      {loading ? "Sending..." : "Send Us A Message"} 
                       </button>
 
                   </form>

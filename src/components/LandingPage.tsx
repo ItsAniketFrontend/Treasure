@@ -5,6 +5,7 @@ import {
   X, Maximize2, Phone, User, Settings, PenTool, ArrowRight, 
   Menu, Sun, Moon, Mail, MapPin, Facebook, Twitter, Linkedin, Youtube 
 } from 'lucide-react';
+import toast from "react-hot-toast";
 
 // --- PLACEHOLDERS FOR EXTERNAL IMPORTS ---
 import HeroSection from './HeroSection';
@@ -94,6 +95,7 @@ const LandingPage = () => {
         <FeaturesSection isDark={isDark} />
         <StatsSection isDark={isDark} />
         <GallerySection />
+        <TestimonialSection />
         <BlogSection />
         <ContactHero />
         <LocationSection />
@@ -549,7 +551,113 @@ const BlogSection = () => {
   );
 };
 
+// 
+  
+// 
 const ContactHero = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    phone: '',
+    message: ''
+  });
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+  const [loading, setLoading] = useState(false);
+    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // ✅ VALIDATION
+    if (!formData.email || !formData.phone || !formData.message) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      toast.error("Please enter a valid 10-digit phone number.");
+      return;
+    }
+
+    if (formData.message.length < 10) {
+      toast.error("Message should be at least 10 characters.");
+      return;
+    }
+
+    // 🚀 SUBMIT
+    if (loading) return;
+
+    setLoading(true);
+    const toastId = toast.loading("Sending your enquiry...");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      // ✅ SAFE JSON PARSE (fixes your error)
+      let data;
+
+      try {
+        const contentType = res.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          const text = await res.text();
+          console.error("❌ Non-JSON response:", text);
+          data = { success: false, message: "Server returned invalid response" };
+        }
+
+      } catch (err) {
+        console.error("❌ Parse error:", err);
+        data = { success: false, message: "Response parsing failed" };
+      }
+
+      toast.dismiss(toastId);
+
+      // ✅ Check HTTP status also
+      if (res.ok && data.success) {
+        toast.success(
+          "Your enquiry has been sent successfully. We’ll get back to you shortly."
+        );
+
+        setFormData({
+          email: "",
+          phone: "",
+          message: "",
+        });
+      } else {
+        toast.error(
+          data?.message || "We couldn’t send your enquiry. Please try again."
+        );
+      }
+
+    } catch (err) {
+      toast.dismiss(toastId);
+      toast.error("Something went wrong. Please check your connection.");
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const formFields = [
     { name: 'email', label: 'Email*', type: 'email' },
     { name: 'phone', label: 'Phone*', type: 'tel' },
@@ -599,13 +707,15 @@ const ContactHero = () => {
               </h2>
 
               {/* --- Form --- */}
-              <form className="space-y-8 z-10 relative">
+              <form onSubmit={handleSubmit}  className="space-y-8 z-10 relative">
                 {formFields.map(({ name, label, type }) => (
                   <div key={name} className="relative">
                     <input 
                       type={type} 
                       id={name}
                       name={name}
+                      value={formData[name]}
+                      onChange={handleChange}
                       placeholder={label}
                       className="peer block w-full bg-transparent border-b border-white/30 py-2 text-white placeholder:text-transparent focus:outline-none focus:border-white transition-colors font-['Playfair_Display']"
                     />
@@ -622,8 +732,13 @@ const ContactHero = () => {
                 ))}
 
                 <button 
-                  type="submit"
-                  className="group flex items-center justify-center gap-3 px-8 py-3 border border-white/50 hover:bg-[#EBEBE6] hover:text-[#4A2521] text-white transition-all duration-300 uppercase text-xs tracking-widest mt-4 font-['Oswald']"
+                   type="submit" 
+                      disabled={loading}
+                  className={`group flex items-center justify-center gap-3 px-8 py-3 border border-white/50 hover:bg-[#EBEBE6] hover:text-[#4A2521] text-white transition-all duration-300 uppercase text-xs tracking-widest mt-4 font-['Oswald']
+                   ${loading 
+                          ? "bg-gray-400 cursor-not-allowed" 
+                          : ""}
+                  `}
                 >
                   <Mail size={14} />
                   Submit Inquiry
@@ -743,8 +858,8 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-base font-bold uppercase tracking-widest font-['Oswald'] text-white">About</h3>
             <p className="text-sm text-[#EBEBE6]/60 leading-relaxed font-['Playfair_Display'] max-w-xs ">
-              Katewa Companies is a visionary real estate and development firm committed to exceptional residential and commercial environments, grounded in quality
-              thoughtful design, and sustainable excellence, shaping places people are proud to call their own. 
+              At Katewa Companies, we believe a home is more than a structure, it’s a reflection of your journey.
+              Through thoughtful design, quality craftsmanship, and attention to detail, we create spaces that feel personal, timeless, and truly yours. 
             </p>
           </div>
 
@@ -757,7 +872,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={14} className="text-white/40" />
-                <span className="break-all">Treasure@katewacompanies.in</span>
+                <span className="break-all">admin@katewacompanies.in</span>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={14} className="text-white/40 mt-1" />
@@ -813,7 +928,7 @@ const Footer = () => {
       </div>
 
       <div className="bg-[#1A0B09] py-4 border-t border-[#EBEBE6]/5 relative z-10">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left mb-6">
           
           <div className="flex flex-col md:flex-row items-center gap-3">
              <img 
@@ -832,6 +947,138 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+  );
+};
+const TestimonialSection = () => {
+  const slides = [
+    // {
+    //   type: "testimonial",
+    //   name: "Aarav Sharma",
+    //   role: "Homeowner",
+    //   content:
+    //     "The design completely transformed our living space.",
+    //   image: "", // ❌ no image
+    // },
+    {
+      type: "video",
+      title: "",
+      video: "/assets/videos/testimonial-1.mp4",
+    },
+    {
+      type: "video",
+      title: "",
+      video: "/assets/videos/testimonial-2.mp4",
+    },
+    // {
+    //   type: "testimonial",
+    //   name: "Priya Mehta",
+    //   role: "Interior Enthusiast",
+    //   content:
+    //     "A perfect blend of luxury and comfort.",
+    //   image: "/assets/images/client2.jpg",
+    // },
+  ];
+
+   const [current, setCurrent] = useState(0);
+
+  const nextSlide = () => {
+    setCurrent((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  // useEffect(() => {
+  //   const interval = setInterval(nextSlide, 4000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
+  return (
+    <section className="relative py-24 bg-[#ffffff] dark:bg-[#2A0A0A] overflow-hidden">
+      
+      <div className="absolute top-[-20px] left-4 md:left-20 opacity-80">
+        <span className="text-[20vw] md:text-[14rem] font-['Playfair_Display'] text-[#EBEBE6] dark:text-white/5">
+          Stories
+        </span>
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+
+        <h2 className="text-xl md:text-2xl font-['Oswald'] tracking-widest text-[#8C7B6C] mb-12 uppercase">
+          Client Stories & Films
+        </h2>
+
+        {/* Slide */}
+        <div className="relative">
+
+          {slides[current].type === "testimonial" ? (
+            <div className="flex flex-col items-center gap-6">
+
+              {/* ✅ Profile Image OR Default SVG */}
+              {slides[current].image ? (
+                <img
+                  src={slides[current].image}
+                  className="w-20 h-20 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center">
+                          <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-10 h-10 text-[#8C7B6C]"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M12 13c2.67 0 8 1.34 8 4v3H4v-3c0-2.66 5.33-4 8-4zm0-2a4 4 0 100-8 4 4 0 000 8z"/>
+              </svg>
+                </div>
+              )}
+
+              <p className="italic text-stone-600 dark:text-white/80">
+                “{slides[current].content}”
+              </p>
+
+              <div>
+                <h4 className="font-['Oswald'] text-lg">
+                  {slides[current].name}
+                </h4>
+                <span className="text-xs uppercase text-stone-500">
+                  {slides[current].role}
+                </span>
+              </div>
+            </div>
+
+          ) : (
+            <div className="flex flex-col gap-4">
+
+              {/* 🎥 Local Video */}
+              <video
+                src={slides[current].video}
+                controls
+                autoPlay
+                muted
+                className="w-full rounded-lg"
+                style={{ height:"60vh" }}
+              />
+
+              <h3 className="font-['Oswald'] text-lg text-stone-900 dark:text-white">
+                {slides[current].title}
+              </h3>
+            </div>
+          )}
+
+    {/* Controls */}
+          <div className="flex justify-center gap-6 mt-8">
+            <button onClick={prevSlide} className="px-4 py-2 border">
+              ←
+            </button>
+            <button onClick={nextSlide} className="px-4 py-2 border">
+              →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
