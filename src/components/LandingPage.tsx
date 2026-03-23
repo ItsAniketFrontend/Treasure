@@ -951,32 +951,16 @@ const Footer = () => {
 };
 const TestimonialSection = () => {
   const slides = [
-    // {
-    //   type: "testimonial",
-    //   name: "Aarav Sharma",
-    //   role: "Homeowner",
-    //   content:
-    //     "The design completely transformed our living space.",
-    //   image: "", // ❌ no image
-    // },
     {
       type: "video",
-      title: "",
+      title: "Life at Treasure",
       video: "/assets/videos/testimonial-1.mp4",
     },
     {
       type: "video",
-      title: "",
+      title: "Experience Luxury",
       video: "/assets/videos/testimonial-2.mp4",
     },
-    // {
-    //   type: "testimonial",
-    //   name: "Priya Mehta",
-    //   role: "Interior Enthusiast",
-    //   content:
-    //     "A perfect blend of luxury and comfort.",
-    //   image: "/assets/images/client2.jpg",
-    // },
   ];
 
    const [current, setCurrent] = useState(0);
@@ -989,94 +973,90 @@ const TestimonialSection = () => {
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  // useEffect(() => {
-  //   const interval = setInterval(nextSlide, 4000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
   return (
-    <section className="relative py-24 bg-[#ffffff] dark:bg-[#2A0A0A] overflow-hidden">
+    <section className="relative py-24 md:py-32 bg-[#ffffff] dark:bg-[#2A0A0A] overflow-hidden transition-colors duration-700">
       
-      <div className="absolute top-[-20px] left-4 md:left-20 opacity-80">
-        <span className="text-[20vw] md:text-[14rem] font-['Playfair_Display'] text-[#EBEBE6] dark:text-white/5">
+      {/* Background Typography */}
+      <div className="absolute top-10 left-4 md:left-20 opacity-80 pointer-events-none z-0">
+        <span className="text-[20vw] md:text-[12rem] font-['Playfair_Display'] text-[#EBEBE6] dark:text-white/5 leading-none select-none">
           Stories
         </span>
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
 
-        <h2 className="text-xl md:text-2xl font-['Oswald'] tracking-widest text-[#8C7B6C] mb-12 uppercase">
-          Client Stories & Films
-        </h2>
+        {/* Header */}
+        <div className="flex flex-col items-center mb-16 text-center">
+          <h2 className="text-xl md:text-2xl font-['Oswald'] tracking-widest text-[#8C7B6C] dark:text-white/70 uppercase mb-4">
+            Client Stories & Films
+          </h2>
+          <div className="w-16 h-[1px] bg-[#8C7B6C] dark:bg-white/70" />
+        </div>
 
-        {/* Slide */}
-        <div className="relative">
-
-          {slides[current].type === "testimonial" ? (
-            <div className="flex flex-col items-center gap-6">
-
-              {/* ✅ Profile Image OR Default SVG */}
-              {slides[current].image ? (
-                <img
-                  src={slides[current].image}
-                  className="w-20 h-20 rounded-full object-cover"
+        {/* Video Slider Container */}
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12 bg-[#F9F9F7]/80 dark:bg-black/20 backdrop-blur-md p-6 md:p-12 rounded-3xl border border-stone-200 dark:border-white/10 shadow-2xl">
+          
+          {/* Video Player */}
+          <div className="w-full md:w-1/2 flex justify-center">
+            <div className="relative w-full max-w-[280px] aspect-[9/16] rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-white dark:border-stone-800 bg-black">
+              <AnimatePresence mode="wait">
+                <motion.video
+                  key={current}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  src={slides[current].video}
+                  controls
+                  autoPlay
+                  loop
+                  muted
+                  className="w-full h-full object-cover"
                 />
-              ) : (
-                <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center">
-                          <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-10 h-10 text-[#8C7B6C]"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 13c2.67 0 8 1.34 8 4v3H4v-3c0-2.66 5.33-4 8-4zm0-2a4 4 0 100-8 4 4 0 000 8z"/>
-              </svg>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Video Content & Controls */}
+          <div className="w-full md:w-1/2 flex flex-col justify-center text-center md:text-left">
+             <AnimatePresence mode="wait">
+               <motion.div
+                  key={`text-${current}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4 }}
+               >
+                  <div className="text-xs font-['Oswald'] text-[#8C7B6C] dark:text-white/50 tracking-[0.2em] uppercase mb-4">Featured Film</div>
+                  <h3 className="font-['Playfair_Display'] text-3xl md:text-5xl text-stone-900 dark:text-white italic mb-6">
+                    {slides[current].title || "Life at Treasure"}
+                  </h3>
+                  <p className="font-['Playfair_Display'] text-stone-600 dark:text-white/70 leading-relaxed mb-10 text-lg font-light">
+                    Hear directly from our residents and explore the unparalleled lifestyle, world-class amenities, and exquisite design that make Treasure the ultimate residential destination.
+                  </p>
+               </motion.div>
+             </AnimatePresence>
+
+              <div className="flex items-center justify-center md:justify-start gap-6">
+                <button 
+                  onClick={prevSlide} 
+                  className="w-14 h-14 flex items-center justify-center rounded-full border border-stone-300 dark:border-white/30 text-stone-600 dark:text-white/70 hover:bg-stone-800 dark:hover:bg-white/10 hover:text-white transition-all duration-300 group"
+                >
+                  <ArrowRight className="rotate-180 w-5 h-5 group-active:scale-90 transition-transform" />
+                </button>
+                <div className="font-['Oswald'] text-sm tracking-widest text-stone-500 dark:text-white/50">
+                   0{current + 1} <span className="mx-2 opacity-50">/</span> 0{slides.length}
                 </div>
-              )}
-
-              <p className="italic text-stone-600 dark:text-white/80">
-                “{slides[current].content}”
-              </p>
-
-              <div>
-                <h4 className="font-['Oswald'] text-lg">
-                  {slides[current].name}
-                </h4>
-                <span className="text-xs uppercase text-stone-500">
-                  {slides[current].role}
-                </span>
+                <button 
+                  onClick={nextSlide} 
+                  className="w-14 h-14 flex items-center justify-center rounded-full border border-stone-300 dark:border-white/30 text-stone-600 dark:text-white/70 hover:bg-stone-800 dark:hover:bg-white/10 hover:text-white transition-all duration-300 group"
+                >
+                  <ArrowRight className="w-5 h-5 group-active:scale-90 transition-transform" />
+                </button>
               </div>
-            </div>
-
-          ) : (
-            <div className="flex flex-col gap-4">
-
-              {/* 🎥 Local Video */}
-              <video
-                src={slides[current].video}
-                controls
-                autoPlay
-                muted
-                className="w-full rounded-lg"
-                style={{ height:"60vh" }}
-              />
-
-              <h3 className="font-['Oswald'] text-lg text-stone-900 dark:text-white">
-                {slides[current].title}
-              </h3>
-            </div>
-          )}
-
-    {/* Controls */}
-          <div className="flex justify-center gap-6 mt-8">
-            <button onClick={prevSlide} className="px-4 py-2 border">
-              ←
-            </button>
-            <button onClick={nextSlide} className="px-4 py-2 border">
-              →
-            </button>
           </div>
         </div>
+
       </div>
     </section>
   );
