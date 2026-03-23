@@ -11,6 +11,7 @@ const MENU_ITEMS = [
   { label: 'About Us', href: '/about' },
   { label: 'Our Services', href: '/services' },
   { label: 'Our Projects', href: '/projects' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -27,7 +28,7 @@ const NavigationSidebar = ({ isOpen, onClose }: NavigationSidebarProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[110]"
           />
 
           {/* Sidebar Panel - Takes 1/4 (25%) of the page on desktop */}
@@ -36,7 +37,7 @@ const NavigationSidebar = ({ isOpen, onClose }: NavigationSidebarProps) => {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }} // Exit off-screen left
             transition={{ type: 'tween', duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed top-0 left-0 h-full w-full md:w-1/4 bg-[#F9F9F7] dark:bg-[#2A0A0A] z-[70] shadow-2xl flex flex-col border-r border-stone-200 dark:border-stone-800"
+            className="fixed top-0 left-0 h-full w-full md:w-1/4 bg-[#F9F9F7] dark:bg-[#2A0A0A] z-[120] shadow-2xl flex flex-col border-r border-stone-200 dark:border-stone-800"
           >
             {/* Header Area inside Sidebar */}
             <div className="flex justify-between items-center p-6 md:p-8 border-b border-stone-200 dark:border-stone-800">

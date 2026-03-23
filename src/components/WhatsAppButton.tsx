@@ -1,9 +1,14 @@
 import { motion } from 'framer-motion';
 
+import { useCMS } from '../hooks/useCMS';
+
 const WhatsAppButton = () => {
+  const { data: settings } = useCMS('settings');
+  const waPhone = settings?.phone?.replace(/\+/g, '').replace(/\s/g, '') || "919353181818";
+
   return (
     <motion.a
-      href="https://wa.me/919353181818?text=Hi%2C%20I%20want%20to%20connect."
+      href={`https://wa.me/${waPhone}?text=Hi%2C%20I%20want%20to%20connect.`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"

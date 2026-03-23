@@ -1,9 +1,6 @@
-import React from 'react';
-// Force redeploy trigger
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// Theme Provider
 import { ThemeProvider } from './components/ThemeContext';
+import { UIProvider } from './context/UIContext';
 
 import LandingPage from './components/LandingPage';
 import AboutUsPage from './components/AboutUs';
@@ -15,45 +12,64 @@ import Projects from './components/Projects';
 import WhatsAppButton from "./components/WhatsAppButton";
 import ScrollToTop from "./components/ScrollToTop";
 import InstagramButton from './components/InstagramButton';
+import BlogPage from './components/BlogPage';
+import BlogPostPage from './components/BlogPostPage';
+import { useCMS } from './hooks/useCMS';
 import { Toaster } from 'react-hot-toast';
 import { Phone, Instagram } from 'lucide-react';
+
+// Admin Components
+import AdminLogin from './components/Admin/AdminLogin';
+import AdminDashboard from './components/Admin/AdminDashboard';
+import ProtectedRoute from './components/Admin/ProtectedRoute';
 
 const App = () => {
   return (
     <ThemeProvider>
-      <Router>
-        <ScrollToTop />  
-        {/* ROUTES */}
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/about" element={<AboutUsPage />} />
-            <Route path="/services" element={<OurServicesPage />} />
-            <Route path="/projects" element={<OurProjectsPage />} />
-            <Route path="/projects/treasure" element={<Projects />} />
-            <Route path="/contact" element={<ContactPage />} />
-          </Route>
-        </Routes>
+      <UIProvider>
+        <Router>
+          <ScrollToTop />  
+          {/* ROUTES */}
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/about" element={<AboutUsPage />} />
+              <Route path="/services" element={<OurServicesPage />} />
+              <Route path="/projects" element={<OurProjectsPage />} />
+              <Route path="/projects/treasure" element={<Projects />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
+            </Route>
 
-        {/* WHATSAPP BUTTON - OUTSIDE ROUTES */}
-        <Toaster position="top-right" />
-        <InstagramButton />
-        <WhatsAppButton />
-        <BottomBar />
+            {/* ADMIN ROUTES */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/*" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+          </Routes>
 
-      </Router>
+          {/* WHATSAPP BUTTON - OUTSIDE ROUTES */}
+          <Toaster position="top-right" />
+          <InstagramButton />
+          <WhatsAppButton />
+          <BottomBar />
+
+        </Router>
+      </UIProvider>
     </ThemeProvider>
   );
 };
 
 const BottomBar = () => {
+  const { data: settings } = useCMS('settings');
+  const waPhone = settings?.phone?.replace(/\+/g, '').replace(/\s/g, '') || "919353181818";
+
   return (
     <div className="fixed bottom-0 left-0 w-full z-[9999] md:hidden pb-4 px-4 pointer-events-none">
       <div className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-gray-200 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-full p-2 flex items-center justify-between gap-2 pointer-events-auto mx-auto max-w-sm">
 
         {/* Call Now */}
         <a
-          href="tel:+919353181818"
+          href={`tel:${settings?.phone || "+919353181818"}`}
           className="flex-1 flex flex-col items-center justify-center py-2 text-gray-600 dark:text-gray-300 hover:text-[#A03333] dark:hover:text-[#A03333] transition-all rounded-3xl hover:bg-gray-100 dark:hover:bg-white/5 active:scale-95"
         >
           <Phone className="w-5 h-5 mb-1" />
@@ -62,7 +78,7 @@ const BottomBar = () => {
 
         {/* WhatsApp - Highlighted Center Action */}
         <a
-          href="https://wa.me/919353181818?text=Hi%2C%20I%20want%20to%20connect."
+          href={`https://wa.me/${waPhone}?text=Hi%2C%20I%20want%20to%20connect.`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex-1 flex flex-col items-center justify-center py-2.5 text-white bg-gradient-to-tr from-[#20B25E] to-[#25D366] rounded-3xl shadow-lg shadow-green-500/30 transform transition-transform active:scale-95 border border-green-400/20"
@@ -75,7 +91,7 @@ const BottomBar = () => {
 
         {/* Instagram */}
         <a
-          href="https://www.instagram.com/treasurejaipur"
+          href={settings?.instagram || "https://www.instagram.com/treasurejaipur"}
           target="_blank"
           rel="noopener noreferrer"
           className="flex-1 flex flex-col items-center justify-center py-2 text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-all rounded-3xl hover:bg-gray-100 dark:hover:bg-white/5 active:scale-95"
@@ -89,7 +105,4 @@ const BottomBar = () => {
   );
 };
 
-
 export default App;
-
-

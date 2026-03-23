@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion';
 import { Instagram } from 'lucide-react';
 
+import { useCMS } from '../hooks/useCMS';
+
 const InstagramButton = () => {
+  const { data: settings } = useCMS('settings');
   return (
     <motion.a
-      href="https://www.instagram.com/treasurejaipur"
+      href={settings?.instagram || "https://www.instagram.com/treasurejaipur"}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Visit Instagram"

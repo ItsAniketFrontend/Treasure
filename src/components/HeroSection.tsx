@@ -17,7 +17,7 @@ const SLIDES = [
   }
 ];
 
-const HeroSection = () => {
+const HeroSection = ({ cmsData }: { cmsData?: any }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Auto-advance slides every 5 seconds
@@ -69,7 +69,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="font-oswald text-6xl md:text-6xl lg:text-7xl text-white uppercase tracking-[0.15em] leading-none drop-shadow-lg"
         >
-          Treasure
+          {cmsData?.hero_title || 'Treasure'}
         </motion.h1>
 
         {/* 2. DIVIDER LINE (New Element) */}
@@ -97,7 +97,7 @@ const HeroSection = () => {
           transition={{ delay: 0.8, duration: 0.8 }}
           className="font-playfair text-sm md:text-base text-gray-200 max-w-lg md:max-w-2xl leading-relaxed opacity-90 mx-auto"
         >
-          You'll always know what goes into your home, <br className="hidden md:block"/> no secrets, just execptional standards.
+          {cmsData?.hero_subtitle || "You'll always know what goes into your home, no secrets, just exceptional standards."}
         </motion.p>
         
         {/* 5. CTA BUTTON */}

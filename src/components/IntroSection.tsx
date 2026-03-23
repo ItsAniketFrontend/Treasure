@@ -6,7 +6,7 @@ const INTRO_IMAGES = [
   // Add more images here if needed
 ];
 
-const IntroSection = () => {
+const IntroSection = ({ cmsData }: { cmsData?: any }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -93,18 +93,14 @@ const IntroSection = () => {
           >
             {/* Heading: Removed <br/> for one-line display */}
             <h2 className="font-['Oswald'] text-3xl sm:text-4xl lg:text-5xl lg:leading-tight mb-6 uppercase tracking-wider text-stone-900 dark:text-white">
-              Light. Space. Sophistication.
+              {cmsData?.intro_title || 'Light. Space. Sophistication.'}
             </h2>
 
             {/* Horizontal Divider */}
             <div className="h-[1px] w-16 bg-stone-400 mb-8" />
 
             <p className="font-['Playfair_Display'] text-stone-600 dark:text-stone-300 mb-6 leading-loose text-base lg:text-lg max-w-lg">
-              Architecture, for us, is an experience, a rhythm of proportion, material, and calm. At Treasure, every home is imagined not as a structure but as a relationship: between light and space, between family and home, between craft and comfort.
-            </p>
-            
-            <p className="font-['Playfair_Display'] text-stone-600 dark:text-stone-300 leading-loose text-base lg:text-lg max-w-lg">
-              We design to endure, thoughtfully, gracefully, and without restraint. The result is a home that feels timeless from the day it is finished.
+              {cmsData?.intro_text || 'Architecture, for us, is an experience, a rhythm of proportion, material, and calm. At Treasure, every home is imagined not as a structure but as a relationship: between light and space, between family and home, between craft and comfort. We design to endure, thoughtfully, gracefully, and without restraint. The result is a home that feels timeless from the day it is finished.'}
             </p>
 
           </motion.div>

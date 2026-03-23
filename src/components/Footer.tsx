@@ -1,9 +1,14 @@
 import React from 'react';
-import { Mail, Facebook, Twitter, Linkedin, Youtube } from 'lucide-react';
+import { Mail, Facebook, Twitter, Linkedin, Youtube, Instagram } from 'lucide-react';
+import { useCMS } from '../hooks/useCMS';
+import { useTheme } from './ThemeContext';
 
 const Footer = () => {
+  const { data: settings } = useCMS('settings');
+  const { isDark } = useTheme();
+
   return (
-    <footer className="w-full bg-[#4A2521] text-[#EBEBE6]">
+    <footer className={`w-full text-[#EBEBE6] ${isDark ? 'bg-[#2A0A0A]' : 'bg-[#4A2521]'}`}>
       {/* Upper Footer: Newsletter & Socials */}
       <div className="relative max-w-7xl mx-auto px-6 py-20 overflow-hidden">
         
@@ -39,10 +44,10 @@ const Footer = () => {
           <div className="w-full md:w-auto">
             <h3 className="text-sm font-bold uppercase tracking-[0.2em] mb-8">Connect With Us</h3>
             <div className="grid grid-cols-2 gap-x-12 gap-y-8">
-                <SocialLink icon={<Facebook size={18} />} label="Facebook" />
-                <SocialLink icon={<Twitter size={18} />} label="Twitter" />
-                <SocialLink icon={<Linkedin size={18} />} label="Pinterest" />
-                <SocialLink icon={<Youtube size={18} />} label="Vimeo" />
+                <SocialLink href={settings?.facebook || "#"} icon={<Facebook size={18} />} label="Facebook" />
+                <SocialLink href={settings?.instagram || "#"} icon={<Instagram size={18} />} label="Instagram" />
+                <SocialLink href={settings?.twitter || "#"} icon={<Twitter size={18} />} label="Twitter" />
+                <SocialLink href={settings?.linkedin || "#"} icon={<Linkedin size={18} />} label="LinkedIn" />
             </div>
           </div>
         </div>
@@ -58,8 +63,8 @@ const Footer = () => {
           </div>
 
           <div className="flex gap-8">
-            <span>+91 73782 55255</span>
-            <span>katewacompanies@gmail.com</span>
+            <span>{settings?.phone || '+91 93531 81818'}</span>
+            <span>{settings?.email || 'admin@katewacompanies.in'}</span>
           </div>
         </div>
       </div>
@@ -67,8 +72,8 @@ const Footer = () => {
   );
 };
 
-const SocialLink = ({ icon, label }) => (
-  <a href="#" className="flex flex-col items-center gap-2 group hover:text-white transition-colors text-[#EBEBE6]/60">
+const SocialLink = ({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group hover:text-white transition-colors text-[#EBEBE6]/60">
     <div className="p-2 border border-transparent group-hover:border-[#EBEBE6]/30 rounded-full transition-all">
         {icon}
     </div>

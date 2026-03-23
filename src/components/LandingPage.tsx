@@ -11,40 +11,16 @@ import toast from "react-hot-toast";
 import HeroSection from './HeroSection';
 import IntroSection from './IntroSection';
 import NavigationSidebar from './NavigationSidebar';
+import { useCMS } from '../hooks/useCMS';
+import { useUI } from '../context/UIContext';
+import { useTheme } from './ThemeContext';
 
 // --- MAIN COMPONENT ---
 
 const LandingPage = () => {
-  // Theme State Management
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      return savedTheme === 'dark';
-    }
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleTheme = () => {
-    setIsDark(prevIsDark => {
-      const newTheme = !prevIsDark;
-      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
-      return newTheme;
-    });
-  };
-
-  const openMenu = () => setIsMenuOpen(true);
-  const closeMenu = () => setIsMenuOpen(false);
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (isDark) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-  }, [isDark]);
+  const { isDark, toggleTheme } = useTheme();
+  const { isMenuOpen, openMenu, closeMenu } = useUI();
+  const { data: cmsData } = useCMS('home');
 
   return (
     <main className={`min-h-screen transition-colors duration-700 ease-in-out font-sans overflow-x-hidden
@@ -74,25 +50,19 @@ const LandingPage = () => {
         </button>
       </div>
 
-      {/* SIDEBAR: Visible on Desktop */}
-      <FixedSidebar isDark={isDark} onOpenMenu={openMenu} />
-
-      {/* DRAWER MENU */}
-      <NavigationSidebar isOpen={isMenuOpen} onClose={closeMenu} />
-
       {/* MAIN CONTENT WRAPPER: Padded left on desktop only */}
       <div className="pl-0 md:pl-24 w-full overflow-hidden flex flex-col min-h-screen">
 
         {/* 1. HERO (Imported) */}
-        <HeroSection />
+        <HeroSection cmsData={cmsData} />
 
         {/* 2. INTRO (Imported) */}
-        <IntroSection />
+        <IntroSection cmsData={cmsData} />
 
         {/* 3. SUB-SECTIONS */}
         <VideoSection />
-        <FeaturesSection isDark={isDark} />
-        <StatsSection isDark={isDark} />
+        <FeaturesSection isDark={isDark} cmsData={cmsData} />
+        <StatsSection isDark={isDark} cmsData={cmsData} />
         <GallerySection />
         <TestimonialSection />
         <BlogSection />
@@ -107,52 +77,6 @@ const LandingPage = () => {
 
 // --- SUB-COMPONENTS ---
 
-const FixedSidebar = ({ isDark, onOpenMenu }: { isDark: boolean, onOpenMenu: () => void }) => {
-  return (
-    <aside className={`hidden md:flex fixed top-0 left-0 h-screen w-24 z-50 flex-col justify-between items-center border-r shadow-sm transition-colors duration-500 ${isDark ? 'bg-[#2A0A0A] border-white/10' : 'bg-white border-gray-100'
-      }`}>
-      {/* Top: Hamburger & Main Logo */}
-      <div className="flex flex-col items-center w-full pt-8 gap-12">
-        <button onClick={onOpenMenu} aria-label="Open Menu" className="group p-2">
-          <div className="space-y-1.5">
-            <span className={`block w-8 h-0.5 group-hover:w-6 transition-all duration-300 ${isDark ? 'bg-white' : 'bg-stone-800'}`}></span>
-            <span className={`block w-5 h-0.5 group-hover:w-8 transition-all duration-300 ${isDark ? 'bg-white' : 'bg-stone-800'}`}></span>
-          </div>
-        </button>
-
-        <Link to="/" className="group hover:opacity-80 transition-opacity">
-          <img
-            src="/assets/images/logo.png"
-            alt="Treasure Logo"
-            className="w-12 h-auto object-contain"
-          />
-        </Link>
-      </div>
-
-      {/* Bottom: Secondary Logo & Enquiry Link */}
-      <div className="w-full flex flex-col items-center">
-
-        <div className="mb-6 opacity-80 hover:opacity-100 transition-opacity">
-          <img
-            src="/assets/images/katewa-logo.png"
-            alt="Secondary Logo"
-            className={`w-12 h-auto object-contain ${isDark ? 'brightness-0 invert' : ''}`}
-          />
-        </div>
-
-        <Link
-          to="/contact"
-          className="w-full h-48 bg-[#3E2723] text-white flex items-center justify-center hover:bg-[#2C1A16] transition-colors"
-        >
-          <span className="text-xs font-bold tracking-[0.25em] uppercase [writing-mode:vertical-lr] rotate-180">
-            Make an Enquiry
-          </span>
-        </Link>
-      </div>
-    </aside>
-  );
-};
-
 const VideoSection = () => (
   <section className="w-full h-[40vh] md:h-screen relative group overflow-hidden">
     <img
@@ -165,7 +89,7 @@ const VideoSection = () => (
 
 const UNIT_FEATURES = [''];
 
-const FeaturesSection = ({ isDark }: { isDark: boolean }) => (
+const FeaturesSection = ({ isDark, cmsData }: { isDark: boolean, cmsData?: any }) => (
   <section className="relative py-16 md:py-32 px-6 md:px-24 max-w-[1600px] mx-auto overflow-hidden">
 
     <div className="
@@ -206,11 +130,11 @@ const FeaturesSection = ({ isDark }: { isDark: boolean }) => (
       {/* Added lg:pt-24 to shift text content down on desktop */}
       <div className="lg:col-span-5 lg:pl-12 mt-4 lg:mt-0 lg:pt-24 text-left">
         <h2 className="font-['Oswald'] text-3xl sm:text-4xl md:text-5xl mb-6 uppercase tracking-wide leading-tight dark:text-white">
-          Refined Residences <br className="hidden md:block" /> Designed for your Comfort
+          {cmsData?.hero_title || 'Refined Residences Designed for your Comfort'}
         </h2>
 
         <p className="font-['Playfair_Display'] text-stone-600 dark:text-white/80 mb-8 font-light leading-relaxed text-base sm:text-lg">
-          Treasure offers thoughtfully crafted apartment layouts, ensuring spacious interiors, cross ventilation, natural lighting, and luxury-grade detailing.
+          {cmsData?.hero_subtitle || 'Treasure offers thoughtfully crafted apartment layouts, ensuring spacious interiors, cross ventilation, natural lighting, and luxury-grade detailing.'}
         </p>
 
         <div className="grid grid-cols-1 gap-4 mb-8">
@@ -225,16 +149,16 @@ const FeaturesSection = ({ isDark }: { isDark: boolean }) => (
   </section>
 );
 
-const STATS_DATA = [
-  { val: '78%', label: 'Climate Responsive Architecture' },
-  { val: '92%', label: 'Premium Material Selection' },
-  { val: '88%', label: 'Optimal Layout Efficiency' },
-  { val: '45', label: 'AQI' },
-];
-
-const StatsSection = ({ isDark }: { isDark: boolean }) => {
+const StatsSection = ({ isDark, cmsData }: { isDark: boolean, cmsData?: any }) => {
   const radius = 45;
   const circumference = 2 * Math.PI * radius;
+
+  const STATS_DATA = [
+    { val: cmsData?.stat_1 || '78%', label: 'Climate Responsive Architecture' },
+    { val: cmsData?.stat_2 || '92%', label: 'Premium Material Selection' },
+    { val: cmsData?.stat_3 || '88%', label: 'Optimal Layout Efficiency' },
+    { val: cmsData?.stat_4 || '45', label: 'AQI' },
+  ];
 
   return (
     <section className="py-12 md:py-20 relative overflow-hidden">
