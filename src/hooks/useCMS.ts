@@ -8,8 +8,10 @@ export interface PageMetadata {
   [key: string]: any;
 }
 
+const cmsCache: Record<string, PageMetadata> = {};
+
 export const useCMS = (pageId: string) => {
-  const [metadata, setMetadata] = useState<PageMetadata | null>(null);
+  const [metadata, setMetadata] = useState<PageMetadata | null>(cmsCache[pageId] || null);
 
   const fetchMetadata = async () => {
     // 1. Try fetching from Supabase first for real-time data
@@ -21,6 +23,7 @@ export const useCMS = (pageId: string) => {
         .single();
       
       if (!error && data) {
+        cmsCache[pageId] = data;
         setMetadata(data);
         return;
       }

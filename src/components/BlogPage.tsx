@@ -13,7 +13,7 @@ const BlogPage = () => {
     const fetchBlogs = async () => {
       const { data, error } = await supabase
         .from('blogs')
-        .select('*')
+        .select('id, created_at, title, slug, description, image, date')
         .order('created_at', { ascending: false });
       if (!error && data) setBlogs(data);
     };
