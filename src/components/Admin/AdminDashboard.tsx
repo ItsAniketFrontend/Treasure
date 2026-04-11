@@ -33,7 +33,42 @@ const AdminDashboard = () => {
   const [blogs, setBlogs] = useState<any[]>([]);
   const [editingBlog, setEditingBlog] = useState<any | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const toastId = toast.loading('Uploading image...');
+
+    try {
+      // First, check if bucket exists or just try uploading
+      // Note: User must create 'blog-images' bucket in Supabase dashboard
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('blog-images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('blog-images')
+        .getPublicUrl(filePath);
+
+      setEditingBlog({ ...editingBlog, image: publicUrl });
+      toast.success('Image uploaded successfully!', { id: toastId });
+    } catch (err: any) {
+      console.error('Upload error:', err);
+      toast.error(`Upload failed: ${err.message || 'Check if "blog-images" bucket exists'}`, { id: toastId });
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -278,7 +313,36 @@ const AdminDashboard = () => {
                   <div className="space-y-6">
                     <input type="text" placeholder="Title" value={editingBlog.title} onChange={e => setEditingBlog({...editingBlog, title: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                     <input type="text" placeholder="Slug" value={editingBlog.slug} onChange={e => setEditingBlog({...editingBlog, slug: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
-                    <input type="text" placeholder="Image URL" value={editingBlog.image} onChange={e => setEditingBlog({...editingBlog, image: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                    <div className="space-y-4">
+                      <label className="block text-sm font-semibold dark:text-gray-300">Blog Image</label>
+                      <div className="flex flex-col md:flex-row gap-4 items-start">
+                        <div className="flex-1 w-full space-y-2">
+                          <input type="text" placeholder="Image URL (or upload below)" value={editingBlog.image} onChange={e => setEditingBlog({...editingBlog, image: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                          <div className="relative">
+                            <input 
+                              type="file" 
+                              accept="image/*" 
+                              onChange={handleImageUpload} 
+                              className="hidden" 
+                              id="image-upload"
+                              disabled={isUploading}
+                            />
+                            <label 
+                              htmlFor="image-upload" 
+                              className={`flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed rounded-xl cursor-pointer transition-all ${isUploading ? 'opacity-50' : 'hover:border-[#A03333] hover:bg-red-50/10'}`}
+                            >
+                              <Plus size={18} />
+                              <span className="text-sm font-medium">{isUploading ? 'Uploading...' : 'Upload Image'}</span>
+                            </label>
+                          </div>
+                        </div>
+                        {editingBlog.image && (
+                          <div className="w-full md:w-32 h-32 rounded-xl overflow-hidden border">
+                            <img src={editingBlog.image} alt="Preview" className="w-full h-full object-cover" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
                     <textarea placeholder="Description" rows={2} value={editingBlog.description} onChange={e => setEditingBlog({...editingBlog, description: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                     <textarea placeholder="Content (HTML)" rows={10} value={editingBlog.content} onChange={e => setEditingBlog({...editingBlog, content: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white font-mono" />
                     <button onClick={async () => {
