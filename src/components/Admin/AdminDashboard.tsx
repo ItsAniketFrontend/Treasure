@@ -36,21 +36,38 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const savedData = localStorage.getItem('cms_metadata');
-    if (savedData) {
-      setPageData(JSON.parse(savedData));
-    } else {
-      const initial: any = {};
-      PAGES.forEach(p => {
-        initial[p.id] = {
-          title: `Treasure - ${p.name}`,
-          description: `Welcome to Treasure Jaipur - ${p.name}.`,
-          schema: '{}',
-          content: {}
-        };
-      });
-      setPageData(initial);
-    }
+    const fetchInitialData = async () => {
+      // Fetch from Supabase
+      const { data, error } = await supabase.from('cms_data').select('*');
+      
+      if (!error && data && data.length > 0) {
+        const remoteData: any = {};
+        data.forEach(item => {
+          remoteData[item.slug] = item;
+        });
+        setPageData(remoteData);
+        localStorage.setItem('cms_metadata', JSON.stringify(remoteData));
+      } else {
+        const savedData = localStorage.getItem('cms_metadata');
+        if (savedData) {
+          setPageData(JSON.parse(savedData));
+        } else {
+          const initial: any = {};
+          PAGES.forEach(p => {
+            initial[p.id] = {
+              slug: p.id,
+              title: `Treasure - ${p.name}`,
+              description: `Welcome to Treasure Jaipur - ${p.name}.`,
+              schema: '{}',
+              content: {}
+            };
+          });
+          setPageData(initial);
+        }
+      }
+    };
+
+    fetchInitialData();
 
     const fetchBlogs = async () => {
       const { data, error } = await supabase
@@ -64,10 +81,23 @@ const AdminDashboard = () => {
 
   const handleSave = async () => {
     setIsSaving(true);
-    localStorage.setItem('cms_metadata', JSON.stringify(pageData));
-    window.dispatchEvent(new Event('cms_data_updated'));
-    setIsSaving(false);
-    toast.success('Changes saved successfully!');
+    try {
+      // Save all pages to Supabase
+      for (const pageId of Object.keys(pageData)) {
+        await supabase
+          .from('cms_data')
+          .upsert({ slug: pageId, ...pageData[pageId] });
+      }
+      
+      localStorage.setItem('cms_metadata', JSON.stringify(pageData));
+      window.dispatchEvent(new Event('cms_data_updated'));
+      toast.success('Changes synced to Supabase successfully!');
+    } catch (err) {
+      console.error('Save error:', err);
+      toast.error('Failed to sync with Supabase');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleLogout = () => {

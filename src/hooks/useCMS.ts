@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
 export interface PageMetadata {
   title: string;
@@ -10,7 +11,24 @@ export interface PageMetadata {
 export const useCMS = (pageId: string) => {
   const [metadata, setMetadata] = useState<PageMetadata | null>(null);
 
-  const fetchMetadata = () => {
+  const fetchMetadata = async () => {
+    // 1. Try fetching from Supabase first for real-time data
+    try {
+      const { data, error } = await supabase
+        .from('cms_data')
+        .select('*')
+        .eq('slug', pageId)
+        .single();
+      
+      if (!error && data) {
+        setMetadata(data);
+        return;
+      }
+    } catch (err) {
+      console.error('Error fetching from Supabase:', err);
+    }
+
+    // 2. Fallback to localStorage
     const savedData = localStorage.getItem('cms_metadata');
     if (savedData) {
       const data = JSON.parse(savedData);
