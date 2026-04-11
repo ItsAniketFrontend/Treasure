@@ -1,29 +1,29 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { useTheme } from './ThemeContext';
 import { Calendar, User, ArrowLeft, Share2 } from 'lucide-react';
-import { useCMS } from '../hooks/useCMS';
+import { supabase } from '../lib/supabase';
 
 const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { isDark } = useTheme();
   const [blog, setBlog] = useState<any | null>(null);
-  useCMS('blog');
 
   useEffect(() => {
-    const savedBlogs = localStorage.getItem('treasure_blogs');
-    if (savedBlogs) {
-      const blogs = JSON.parse(savedBlogs);
-      const post = blogs.find((b: any) => b.slug === slug);
-      if (post) {
-        setBlog(post);
-        // SEO: Override metadata with blog-specific content if it exists
-        if (post.title) document.title = post.title;
+    const fetchBlog = async () => {
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .eq('slug', slug)
+        .single();
+      if (!error && data) {
+        setBlog(data);
+        if (data.title) document.title = data.title;
         let metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', post.description || "");
+        if (metaDesc) metaDesc.setAttribute('content', data.description || '');
       }
-    }
+    };
+    fetchBlog();
   }, [slug]);
 
   if (!blog) return <div className="min-h-screen flex items-center justify-center">Loading Story...</div>;

@@ -3,16 +3,21 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from './ThemeContext';
 import { Calendar, User, ArrowRight } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const BlogPage = () => {
   const { isDark } = useTheme();
   const [blogs, setBlogs] = useState<any[]>([]);
 
   useEffect(() => {
-    const savedBlogs = localStorage.getItem('treasure_blogs');
-    if (savedBlogs) {
-      setBlogs(JSON.parse(savedBlogs));
-    }
+    const fetchBlogs = async () => {
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (!error && data) setBlogs(data);
+    };
+    fetchBlogs();
   }, []);
 
   return (

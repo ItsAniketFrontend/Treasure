@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Settings, 
-  FileText, 
-  LogOut, 
-  Save, 
-  Plus, 
-  Trash2, 
+import {
+  Settings,
+  FileText,
+  LogOut,
+  Save,
+  Plus,
+  Trash2,
   ChevronRight,
   Globe,
   Code,
@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../lib/supabase';
 
 const PAGES = [
   { id: 'home', name: 'Home Page', slug: '/' },
@@ -51,22 +52,22 @@ const AdminDashboard = () => {
       setPageData(initial);
     }
 
-    const savedBlogs = localStorage.getItem('treasure_blogs');
-    if (savedBlogs) {
-      setBlogs(JSON.parse(savedBlogs));
-    }
+    const fetchBlogs = async () => {
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (!error && data) setBlogs(data);
+    };
+    fetchBlogs();
   }, []);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsSaving(true);
     localStorage.setItem('cms_metadata', JSON.stringify(pageData));
-    localStorage.setItem('treasure_blogs', JSON.stringify(blogs));
-    
-    setTimeout(() => {
-      setIsSaving(false);
-      toast.success('Changes saved successfully!');
-      window.dispatchEvent(new Event('cms_data_updated'));
-    }, 800);
+    window.dispatchEvent(new Event('cms_data_updated'));
+    setIsSaving(false);
+    toast.success('Changes saved successfully!');
   };
 
   const handleLogout = () => {
@@ -217,7 +218,7 @@ const AdminDashboard = () => {
             <div className="space-y-8">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold dark:text-white">Manage Blog Posts</h3>
-                <button onClick={() => setEditingBlog({ id: Date.now(), title: '', slug: '', description: '', image: '', content: '', date: new Date().toLocaleDateString() })} className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold flex items-center gap-2"><Plus size={16} /> New Post</button>
+                <button onClick={() => setEditingBlog({ title: '', slug: '', description: '', image: '', content: '' })} className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold flex items-center gap-2"><Plus size={16} /> New Post</button>
               </div>
               {!editingBlog ? (
                 <div className="grid grid-cols-1 gap-4">
@@ -229,7 +230,11 @@ const AdminDashboard = () => {
                       </div>
                       <div className="flex gap-2">
                         <button onClick={() => setEditingBlog(blog)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"><ChevronRight size={18} /></button>
-                        <button onClick={() => setBlogs(blogs.filter(b => b.id !== blog.id))} className="p-2 text-red-600 hover:bg-red-50 rounded-lg"><Trash2 size={18} /></button>
+                        <button onClick={async () => {
+                          const { error } = await supabase.from('blogs').delete().eq('id', blog.id);
+                          if (!error) setBlogs(blogs.filter(b => b.id !== blog.id));
+                          else toast.error('Failed to delete post');
+                        }} className="p-2 text-red-600 hover:bg-red-50 rounded-lg"><Trash2 size={18} /></button>
                       </div>
                     </div>
                   ))}
@@ -246,7 +251,33 @@ const AdminDashboard = () => {
                     <input type="text" placeholder="Image URL" value={editingBlog.image} onChange={e => setEditingBlog({...editingBlog, image: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                     <textarea placeholder="Description" rows={2} value={editingBlog.description} onChange={e => setEditingBlog({...editingBlog, description: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                     <textarea placeholder="Content (HTML)" rows={10} value={editingBlog.content} onChange={e => setEditingBlog({...editingBlog, content: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white font-mono" />
-                    <button onClick={() => { setBlogs(blogs.find(b => b.id === editingBlog.id) ? blogs.map(b => b.id === editingBlog.id ? editingBlog : b) : [...blogs, editingBlog]); setEditingBlog(null); }} className="w-full py-4 bg-[#A03333] text-white rounded-xl font-bold">Update Draft</button>
+                    <button onClick={async () => {
+                      if (editingBlog.id) {
+                        // Update existing
+                        const { error } = await supabase.from('blogs').update({
+                          title: editingBlog.title,
+                          slug: editingBlog.slug,
+                          description: editingBlog.description,
+                          image: editingBlog.image,
+                          content: editingBlog.content,
+                        }).eq('id', editingBlog.id);
+                        if (error) { toast.error('Failed to save'); return; }
+                        setBlogs(blogs.map(b => b.id === editingBlog.id ? editingBlog : b));
+                      } else {
+                        // Insert new
+                        const { data, error } = await supabase.from('blogs').insert({
+                          title: editingBlog.title,
+                          slug: editingBlog.slug,
+                          description: editingBlog.description,
+                          image: editingBlog.image,
+                          content: editingBlog.content,
+                        }).select().single();
+                        if (error) { toast.error('Failed to publish'); return; }
+                        setBlogs([data, ...blogs]);
+                      }
+                      toast.success('Blog post saved!');
+                      setEditingBlog(null);
+                    }} className="w-full py-4 bg-[#A03333] text-white rounded-xl font-bold">Publish Post</button>
                   </div>
                 </div>
               )}
