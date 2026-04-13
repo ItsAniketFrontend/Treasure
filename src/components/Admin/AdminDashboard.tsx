@@ -16,6 +16,8 @@ import {
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const PAGES = [
   { id: 'home', name: 'Home Page', slug: '/' },
@@ -350,7 +352,36 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                     <textarea placeholder="Description" rows={2} value={editingBlog.description} onChange={e => setEditingBlog({...editingBlog, description: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
-                    <textarea placeholder="Content (HTML)" rows={10} value={editingBlog.content} onChange={e => setEditingBlog({...editingBlog, content: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white font-mono" />
+                    
+                    <div className="space-y-2">
+                      <label className="block text-sm font-semibold dark:text-gray-300">Blog Content</label>
+                      <div className="quill-editor-container bg-white dark:bg-zinc-800 rounded-xl overflow-hidden border border-gray-200 dark:border-white/10">
+                        <ReactQuill 
+                          theme="snow" 
+                          value={editingBlog.content} 
+                          onChange={content => setEditingBlog({...editingBlog, content})}
+                          modules={{
+                            toolbar: [
+                              [{ 'header': [1, 2, 3, false] }],
+                              ['bold', 'italic', 'underline', 'strike'],
+                              [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                              ['link', 'clean']
+                            ],
+                          }}
+                          placeholder="Write your story here..."
+                          className="dark:text-white"
+                        />
+                      </div>
+                      <style>{`
+                        .ql-container { font-family: 'Playfair Display', serif; font-size: 16px; border: none !important; min-h: 300px; }
+                        .ql-toolbar { border: none !important; border-bottom: 1px solid rgba(0,0,0,0.1) !important; background: #f9f9f9; }
+                        .dark .ql-toolbar { background: #1a0505; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+                        .dark .ql-toolbar .ql-stroke { stroke: #fff; }
+                        .dark .ql-toolbar .ql-fill { fill: #fff; }
+                        .dark .ql-toolbar .ql-picker { color: #fff; }
+                        .dark .ql-editor.ql-blank::before { color: rgba(255,255,255,0.3); }
+                      `}</style>
+                    </div>
                     <button onClick={async () => {
                       if (!editingBlog.title) { toast.error('Title is required'); return; }
                       
