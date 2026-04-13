@@ -14,7 +14,7 @@ export const useCMS = (pageId: string) => {
   const [metadata, setMetadata] = useState<PageMetadata | null>(cmsCache[pageId] || null);
 
   const fetchMetadata = async () => {
-    // 1. Try fetching from Supabase first for real-time data
+    // 1. Try fetching from Supabase first
     try {
       const { data, error } = await supabase
         .from('cms_data')
@@ -25,13 +25,18 @@ export const useCMS = (pageId: string) => {
       if (!error && data) {
         cmsCache[pageId] = data;
         setMetadata(data);
+        // Sync to localStorage as well
+        const savedData = localStorage.getItem('cms_metadata');
+        const allData = savedData ? JSON.parse(savedData) : {};
+        allData[pageId] = data;
+        localStorage.setItem('cms_metadata', JSON.stringify(allData));
         return;
       }
     } catch (err) {
       console.error('Error fetching from Supabase:', err);
     }
 
-    // 2. Fallback to localStorage
+    // 2. Fallback to localStorage if Supabase fails
     const savedData = localStorage.getItem('cms_metadata');
     if (savedData) {
       const data = JSON.parse(savedData);

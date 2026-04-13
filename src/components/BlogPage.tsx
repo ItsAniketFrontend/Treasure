@@ -4,9 +4,11 @@ import { motion } from 'framer-motion';
 import { useTheme } from './ThemeContext';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { useCMS } from '../hooks/useCMS';
 
 const BlogPage = () => {
   const { isDark } = useTheme();
+  useCMS('blog');
   const [blogs, setBlogs] = useState<any[]>([]);
 
   useEffect(() => {

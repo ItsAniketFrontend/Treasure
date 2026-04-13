@@ -95,7 +95,7 @@ const BlogPostPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-16">
           {/* Main content area */}
           <div 
-            className="prose prose-stone dark:prose-invert max-w-none text-lg md:text-xl leading-relaxed font-light font-['Playfair_Display']"
+            className="prose prose-stone dark:prose-invert max-w-none text-lg md:text-xl leading-relaxed font-['Playfair_Display']"
             dangerouslySetInnerHTML={{ __html: blog.content }}
           />
 

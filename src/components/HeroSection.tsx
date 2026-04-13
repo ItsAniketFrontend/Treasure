@@ -33,7 +33,7 @@ const HeroSection = ({ cmsData }: { cmsData?: any }) => {
       
       {/* --- FONT LOADING --- */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
         .font-oswald { font-family: 'Oswald', sans-serif; }
         .font-playfair { font-family: 'Playfair Display', serif; }
       `}</style>
