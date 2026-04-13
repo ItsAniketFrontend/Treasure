@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, MapPin, Menu, Sun, Moon, ArrowRight, Phone } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from './ThemeContext';
 import { useUI } from '../context/UIContext';
 import { useCMS } from '../hooks/useCMS';

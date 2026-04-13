@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sun, Moon, ArrowRight, Menu } from 'lucide-react'; 
+import { Sun, Moon, Menu } from 'lucide-react'; 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from './ThemeContext';
 import { useUI } from '../context/UIContext';

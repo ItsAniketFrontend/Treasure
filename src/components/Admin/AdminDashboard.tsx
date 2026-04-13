@@ -8,10 +8,8 @@ import {
   Trash2,
   ChevronRight,
   Globe,
-  Code,
   Layout as LayoutIcon,
   CheckCircle2,
-  Mail
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';

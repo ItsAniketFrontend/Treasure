@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
-  X, Maximize2, Phone, User, Settings, PenTool, ArrowRight,
+  X, Phone, ArrowRight,
   Menu, Sun, Moon, Mail, MapPin, Facebook, Twitter, Linkedin, Youtube
 } from 'lucide-react';
 import toast from "react-hot-toast";
@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 // --- PLACEHOLDERS FOR EXTERNAL IMPORTS ---
 import HeroSection from './HeroSection';
 import IntroSection from './IntroSection';
-import NavigationSidebar from './NavigationSidebar';
 import { useCMS } from '../hooks/useCMS';
 import { useUI } from '../context/UIContext';
 import { useTheme } from './ThemeContext';
@@ -19,7 +18,7 @@ import { useTheme } from './ThemeContext';
 
 const LandingPage = () => {
   const { isDark, toggleTheme } = useTheme();
-  const { isMenuOpen, openMenu, closeMenu } = useUI();
+  const { openMenu } = useUI();
   const { data: cmsData } = useCMS('home');
 
   return (
@@ -306,7 +305,7 @@ const GALLERY_ITEMS = [
   }
 ];
 
-const GalleryCard = ({ item, onClick }) => (
+const GalleryCard = ({ item, onClick }: { item: any, onClick: (item: any) => void }) => (
   <div
     onClick={() => onClick(item)}
     className={`relative group overflow-hidden bg-stone-200 cursor-pointer w-full ${item.colSpan} h-[300px] md:h-[400px]`}
@@ -330,7 +329,7 @@ const GalleryCard = ({ item, onClick }) => (
 );
 
 const GallerySection = () => {
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
 
   return (
     <section className="relative py-24 px-4 sm:px-6 bg-white dark:bg-[#2A0A0A] transition-colors duration-700">
@@ -475,7 +474,7 @@ const BlogSection = () => {
 
 // 
 const ContactHero = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Record<string, string>>({
     email: '',
     phone: '',
     message: ''
@@ -490,7 +489,7 @@ const ContactHero = () => {
   };
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // console.log(import.meta.env.VITE_RESEND_API_KEY);
