@@ -44,14 +44,6 @@ const AdminDashboard = () => {
     const toastId = toast.loading('Uploading image...');
 
     try {
-      // Bucket check: 'blog-images' is required in Supabase
-      const { data: buckets } = await supabase.storage.listBuckets();
-      const bucketExists = buckets?.some(b => b.name === 'blog-images');
-      
-      if (!bucketExists) {
-        throw new Error('Storage bucket "blog-images" not found. Please create it in your Supabase Dashboard as a PUBLIC bucket.');
-      }
-
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
       const filePath = `${fileName}`;
