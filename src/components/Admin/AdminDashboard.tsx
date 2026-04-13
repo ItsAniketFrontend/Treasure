@@ -105,7 +105,7 @@ const AdminDashboard = () => {
     const fetchBlogs = async () => {
       const { data, error } = await supabase
         .from('blogs')
-        .select('id, created_at, title, slug, description, image, date')
+        .select('*')
         .order('created_at', { ascending: false });
       if (!error && data) setBlogs(data);
     };
@@ -287,7 +287,7 @@ const AdminDashboard = () => {
                 <h3 className="text-xl font-bold dark:text-white">Manage Blog Posts</h3>
                 <button onClick={() => {
                   const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                  setEditingBlog({ title: '', slug: '', description: '', image: '', content: '', date: today });
+                  setEditingBlog({ title: '', meta_title: '', slug: '', description: '', image: '', content: '', date: today });
                 }} className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold flex items-center gap-2"><Plus size={16} /> New Post</button>
               </div>
               {!editingBlog ? (
@@ -312,36 +312,36 @@ const AdminDashboard = () => {
               ) : (
                 <div className="bg-white dark:bg-zinc-900 rounded-3xl p-8 border border-gray-100 dark:border-white/10 shadow-sm text-left">
                   <div className="flex justify-between items-center mb-8">
-                    <h3 className="font-bold text-xl dark:text-white">Editing: {editingBlog.title}</h3>
-                    <button onClick={() => setEditingBlog(null)} className="text-sm underline">Back</button>
+                    <h3 className="font-bold text-xl dark:text-white">{editingBlog.id ? `Editing: ${editingBlog.title}` : 'Creating New Post'}</h3>
+                    <button onClick={() => setEditingBlog(null)} className="text-sm underline text-red-500 hover:text-red-700 font-medium">Back to List</button>
                   </div>
                   <div className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-semibold mb-2 dark:text-gray-300">Main Title (H1)</label>
-                        <input type="text" placeholder="e.g. The Future of Luxury" value={editingBlog.title} onChange={e => setEditingBlog({...editingBlog, title: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                        <input type="text" placeholder="e.g. The Future of Luxury" value={editingBlog.title || ''} onChange={e => setEditingBlog({...editingBlog, title: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                       </div>
                       <div>
                         <label className="block text-sm font-semibold mb-2 dark:text-gray-300">Meta Title (SEO)</label>
-                        <input type="text" placeholder="Optional: SEO specific title" value={editingBlog.meta_title} onChange={e => setEditingBlog({...editingBlog, meta_title: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                        <input type="text" placeholder="Optional: SEO specific title" value={editingBlog.meta_title || ''} onChange={e => setEditingBlog({...editingBlog, meta_title: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-semibold mb-2 dark:text-gray-300">URL Slug</label>
-                        <input type="text" placeholder="e.g. luxury-villas" value={editingBlog.slug} onChange={e => setEditingBlog({...editingBlog, slug: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                        <input type="text" placeholder="e.g. luxury-villas" value={editingBlog.slug || ''} onChange={e => setEditingBlog({...editingBlog, slug: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                       </div>
                       <div>
                         <label className="block text-sm font-semibold mb-2 dark:text-gray-300">Publish Date</label>
-                        <input type="text" placeholder="e.g. Oct 24, 2023" value={editingBlog.date} onChange={e => setEditingBlog({...editingBlog, date: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                        <input type="text" placeholder="e.g. Oct 24, 2023" value={editingBlog.date || ''} onChange={e => setEditingBlog({...editingBlog, date: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                       </div>
                     </div>
                     <div className="space-y-4">
                       <label className="block text-sm font-semibold dark:text-gray-300">Blog Image</label>
                       <div className="flex flex-col md:flex-row gap-4 items-start">
                         <div className="flex-1 w-full space-y-2">
-                          <input type="text" placeholder="Image URL (or upload below)" value={editingBlog.image} onChange={e => setEditingBlog({...editingBlog, image: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                          <input type="text" placeholder="Image URL (or upload below)" value={editingBlog.image || ''} onChange={e => setEditingBlog({...editingBlog, image: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                           <div className="relative">
                             <input 
                               type="file" 
@@ -369,7 +369,7 @@ const AdminDashboard = () => {
                     </div>
                     <div className="space-y-2">
                        <label className="block text-sm font-semibold dark:text-gray-300">Meta Description (Short excerpt for SEO)</label>
-                       <textarea placeholder="Write a short summary..." rows={2} value={editingBlog.description} onChange={e => setEditingBlog({...editingBlog, description: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                       <textarea placeholder="Write a short summary..." rows={2} value={editingBlog.description || ''} onChange={e => setEditingBlog({...editingBlog, description: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                     </div>
                     
                     <div className="space-y-2">
@@ -377,14 +377,17 @@ const AdminDashboard = () => {
                       <div className="quill-editor-container bg-white dark:bg-zinc-800 rounded-xl overflow-hidden border border-gray-200 dark:border-white/10">
                         <ReactQuill 
                           theme="snow" 
-                          value={editingBlog.content} 
+                          value={editingBlog.content || ''} 
                           onChange={content => setEditingBlog({...editingBlog, content})}
                           modules={{
                             toolbar: [
-                              [{ 'header': [1, 2, 3, false] }],
+                              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                               ['bold', 'italic', 'underline', 'strike'],
-                              [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                              ['link', 'clean']
+                              [{ 'color': [] }, { 'background': [] }],
+                              [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
+                              [{ 'align': [] }],
+                              ['link', 'image', 'video', 'blockquote', 'code-block'],
+                              ['clean']
                             ],
                           }}
                           placeholder="Write your story here..."
