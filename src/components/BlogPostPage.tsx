@@ -8,25 +8,56 @@ const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { isDark } = useTheme();
   const [blog, setBlog] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBlog = async () => {
-      const { data, error } = await supabase
-        .from('blogs')
-        .select('*')
-        .eq('slug', slug)
-        .single();
-      if (!error && data) {
-        setBlog(data);
-        if (data.title) document.title = data.title;
-        let metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', data.description || '');
+      setLoading(true);
+      try {
+        const { data, error: fetchError } = await supabase
+          .from('blogs')
+          .select('*')
+          .eq('slug', slug)
+          .single();
+
+        if (fetchError) {
+          console.error('Error fetching blog:', fetchError);
+          setError(fetchError.message);
+        } else if (data) {
+          setBlog(data);
+          if (data.title) document.title = data.title;
+          let metaDesc = document.querySelector('meta[name="description"]');
+          if (metaDesc) metaDesc.setAttribute('content', data.description || '');
+        } else {
+          setError('Post not found');
+        }
+      } catch (err: any) {
+        console.error('Unexpected error:', err);
+        setError(err.message || 'An unexpected error occurred');
+      } finally {
+        setLoading(false);
       }
     };
-    fetchBlog();
+    if (slug) fetchBlog();
   }, [slug]);
 
-  if (!blog) return <div className="min-h-screen flex items-center justify-center">Loading Story...</div>;
+  if (loading) return (
+    <div className={`min-h-screen flex flex-col items-center justify-center gap-4 transition-colors duration-500 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
+      <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
+      <span className="text-xs uppercase tracking-widest font-bold opacity-60">Loading Story...</span>
+    </div>
+  );
+
+  if (error || !blog) return (
+    <div className={`min-h-screen flex flex-col items-center justify-center gap-6 transition-colors duration-500 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
+      <h2 className="text-3xl font-['Playfair_Display'] font-bold">Story Not Found</h2>
+      <p className="opacity-60 max-w-md text-center px-6">We couldn't find the story you're looking for. It might have been moved or doesn't exist.</p>
+      <Link to="/blog" className="px-8 py-3 bg-[#D4AF37] text-white rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-yellow-900/20">
+        Back to Stories
+      </Link>
+    </div>
+  );
 
   return (
     <article className={`min-h-screen py-24 px-6 md:px-24 transition-colors duration-500 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>

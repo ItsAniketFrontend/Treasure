@@ -283,7 +283,10 @@ const AdminDashboard = () => {
             <div className="space-y-8">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold dark:text-white">Manage Blog Posts</h3>
-                <button onClick={() => setEditingBlog({ title: '', slug: '', description: '', image: '', content: '' })} className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold flex items-center gap-2"><Plus size={16} /> New Post</button>
+                <button onClick={() => {
+                  const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                  setEditingBlog({ title: '', slug: '', description: '', image: '', content: '', date: today });
+                }} className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold flex items-center gap-2"><Plus size={16} /> New Post</button>
               </div>
               {!editingBlog ? (
                 <div className="grid grid-cols-1 gap-4">
@@ -312,7 +315,10 @@ const AdminDashboard = () => {
                   </div>
                   <div className="space-y-6">
                     <input type="text" placeholder="Title" value={editingBlog.title} onChange={e => setEditingBlog({...editingBlog, title: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
-                    <input type="text" placeholder="Slug" value={editingBlog.slug} onChange={e => setEditingBlog({...editingBlog, slug: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                    <div className="flex gap-4">
+                      <input type="text" placeholder="Slug (e.g. luxury-villas)" value={editingBlog.slug} onChange={e => setEditingBlog({...editingBlog, slug: e.target.value})} className="flex-1 px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                      <input type="text" placeholder="Date (e.g. Oct 24, 2023)" value={editingBlog.date} onChange={e => setEditingBlog({...editingBlog, date: e.target.value})} className="w-48 px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                    </div>
                     <div className="space-y-4">
                       <label className="block text-sm font-semibold dark:text-gray-300">Blog Image</label>
                       <div className="flex flex-col md:flex-row gap-4 items-start">
@@ -346,27 +352,42 @@ const AdminDashboard = () => {
                     <textarea placeholder="Description" rows={2} value={editingBlog.description} onChange={e => setEditingBlog({...editingBlog, description: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                     <textarea placeholder="Content (HTML)" rows={10} value={editingBlog.content} onChange={e => setEditingBlog({...editingBlog, content: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white font-mono" />
                     <button onClick={async () => {
+                      if (!editingBlog.title) { toast.error('Title is required'); return; }
+                      
+                      // Auto-generate slug if missing
+                      let finalSlug = editingBlog.slug || editingBlog.title.toLowerCase()
+                        .replace(/[^\w\s-]/g, '')
+                        .replace(/\s+/g, '-');
+                      
+                      // Ensure slug is clean
+                      finalSlug = finalSlug.trim().replace(/^\/+|\/+$/g, '');
+
+                      const blogPayload = {
+                        title: editingBlog.title,
+                        slug: finalSlug,
+                        description: editingBlog.description,
+                        image: editingBlog.image,
+                        content: editingBlog.content,
+                        date: editingBlog.date || new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                      };
+
                       if (editingBlog.id) {
                         // Update existing
-                        const { error } = await supabase.from('blogs').update({
-                          title: editingBlog.title,
-                          slug: editingBlog.slug,
-                          description: editingBlog.description,
-                          image: editingBlog.image,
-                          content: editingBlog.content,
-                        }).eq('id', editingBlog.id);
-                        if (error) { toast.error('Failed to save'); return; }
-                        setBlogs(blogs.map(b => b.id === editingBlog.id ? editingBlog : b));
+                        const { error } = await supabase.from('blogs').update(blogPayload).eq('id', editingBlog.id);
+                        if (error) { 
+                          console.error('Save error:', error);
+                          toast.error(`Failed to save: ${error.message}`); 
+                          return; 
+                        }
+                        setBlogs(blogs.map(b => b.id === editingBlog.id ? { ...editingBlog, ...blogPayload } : b));
                       } else {
                         // Insert new
-                        const { data, error } = await supabase.from('blogs').insert({
-                          title: editingBlog.title,
-                          slug: editingBlog.slug,
-                          description: editingBlog.description,
-                          image: editingBlog.image,
-                          content: editingBlog.content,
-                        }).select().single();
-                        if (error) { toast.error('Failed to publish'); return; }
+                        const { data, error } = await supabase.from('blogs').insert(blogPayload).select().single();
+                        if (error) { 
+                          console.error('Insert error:', error);
+                          toast.error(`Failed to publish: ${error.message}`); 
+                          return; 
+                        }
                         setBlogs([data, ...blogs]);
                       }
                       toast.success('Blog post saved!');

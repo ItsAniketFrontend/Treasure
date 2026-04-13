@@ -52,7 +52,7 @@ export const useCMS = (pageId: string) => {
   useEffect(() => {
     if (metadata) {
       // Update Title
-      if (metadata.title) document.title = metadata.title;
+      document.title = metadata.title || 'Treasure Jaipur | Luxury Residences';
 
       // Update Meta Description
       let metaDesc = document.querySelector('meta[name="description"]');
