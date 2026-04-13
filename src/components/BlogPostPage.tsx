@@ -19,7 +19,7 @@ const BlogPostPage = () => {
           .from('blogs')
           .select('*')
           .eq('slug', slug)
-          .single();
+          .maybeSingle();
 
         if (fetchError) {
           console.error('Error fetching blog:', fetchError);

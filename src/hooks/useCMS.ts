@@ -20,7 +20,7 @@ export const useCMS = (pageId: string) => {
         .from('cms_data')
         .select('*')
         .eq('slug', pageId)
-        .single();
+        .maybeSingle();
       
       if (!error && data) {
         cmsCache[pageId] = data;
