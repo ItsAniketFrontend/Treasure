@@ -26,7 +26,9 @@ const BlogPostPage = () => {
           setError(fetchError.message);
         } else if (data) {
           setBlog(data);
-          if (data.title) document.title = data.title;
+          // Set browser tab title (Prioritize Meta Title)
+          document.title = data.metaTitle || data.title || 'Blog Post | Treasure';
+          
           let metaDesc = document.querySelector('meta[name="description"]');
           if (metaDesc) metaDesc.setAttribute('content', data.description || '');
         } else {

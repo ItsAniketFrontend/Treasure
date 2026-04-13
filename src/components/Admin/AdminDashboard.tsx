@@ -224,8 +224,12 @@ const AdminDashboard = () => {
                   <h3 className="font-bold text-xl mb-8 dark:text-white flex items-center gap-2"><CheckCircle2 className="text-green-500" /> Editing Metadata for {PAGES.find(p => p.id === selectedPage)?.name}</h3>
                   <div className="space-y-6 text-left">
                     <div>
-                      <label className="block text-sm font-semibold mb-2 dark:text-gray-300">Meta Title</label>
+                      <label className="block text-sm font-semibold mb-2 dark:text-gray-300">Meta Title (Browser Tab)</label>
                       <input type="text" value={pageData[selectedPage]?.title || ''} onChange={(e) => handleFieldChange(selectedPage, 'title', e.target.value)} className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-white/10 rounded-xl outline-none dark:text-white" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 dark:text-gray-300">H1 Tag (Main Page Heading)</label>
+                      <input type="text" value={pageData[selectedPage]?.h1 || ''} onChange={(e) => handleFieldChange(selectedPage, 'h1', e.target.value)} className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-white/10 rounded-xl outline-none dark:text-white" placeholder="The main title displayed on the page" />
                     </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2 dark:text-gray-300">Meta Description</label>
@@ -316,10 +320,26 @@ const AdminDashboard = () => {
                     <button onClick={() => setEditingBlog(null)} className="text-sm underline">Back</button>
                   </div>
                   <div className="space-y-6">
-                    <input type="text" placeholder="Title" value={editingBlog.title} onChange={e => setEditingBlog({...editingBlog, title: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
-                    <div className="flex gap-4">
-                      <input type="text" placeholder="Slug (e.g. luxury-villas)" value={editingBlog.slug} onChange={e => setEditingBlog({...editingBlog, slug: e.target.value})} className="flex-1 px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
-                      <input type="text" placeholder="Date (e.g. Oct 24, 2023)" value={editingBlog.date} onChange={e => setEditingBlog({...editingBlog, date: e.target.value})} className="w-48 px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-semibold mb-2 dark:text-gray-300">Main Title (H1)</label>
+                        <input type="text" placeholder="e.g. The Future of Luxury" value={editingBlog.title} onChange={e => setEditingBlog({...editingBlog, title: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold mb-2 dark:text-gray-300">Meta Title (SEO)</label>
+                        <input type="text" placeholder="Optional: SEO specific title" value={editingBlog.metaTitle} onChange={e => setEditingBlog({...editingBlog, metaTitle: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-semibold mb-2 dark:text-gray-300">URL Slug</label>
+                        <input type="text" placeholder="e.g. luxury-villas" value={editingBlog.slug} onChange={e => setEditingBlog({...editingBlog, slug: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold mb-2 dark:text-gray-300">Publish Date</label>
+                        <input type="text" placeholder="e.g. Oct 24, 2023" value={editingBlog.date} onChange={e => setEditingBlog({...editingBlog, date: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                      </div>
                     </div>
                     <div className="space-y-4">
                       <label className="block text-sm font-semibold dark:text-gray-300">Blog Image</label>
@@ -351,7 +371,10 @@ const AdminDashboard = () => {
                         )}
                       </div>
                     </div>
-                    <textarea placeholder="Description" rows={2} value={editingBlog.description} onChange={e => setEditingBlog({...editingBlog, description: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                    <div className="space-y-2">
+                       <label className="block text-sm font-semibold dark:text-gray-300">Meta Description (Short excerpt for SEO)</label>
+                       <textarea placeholder="Write a short summary..." rows={2} value={editingBlog.description} onChange={e => setEditingBlog({...editingBlog, description: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                    </div>
                     
                     <div className="space-y-2">
                       <label className="block text-sm font-semibold dark:text-gray-300">Blog Content</label>
@@ -395,6 +418,7 @@ const AdminDashboard = () => {
 
                       const blogPayload = {
                         title: editingBlog.title,
+                        metaTitle: editingBlog.metaTitle || editingBlog.title,
                         slug: finalSlug,
                         description: editingBlog.description,
                         image: editingBlog.image,
