@@ -331,7 +331,7 @@ const AdminDashboard = () => {
                       </div>
                       <div>
                         <label className="block text-sm font-semibold mb-2 dark:text-gray-300">Meta Title (SEO)</label>
-                        <input type="text" placeholder="Optional: SEO specific title" value={editingBlog.metaTitle} onChange={e => setEditingBlog({...editingBlog, metaTitle: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
+                        <input type="text" placeholder="Optional: SEO specific title" value={editingBlog.meta_title} onChange={e => setEditingBlog({...editingBlog, meta_title: e.target.value})} className="w-full px-4 py-3 rounded-xl border bg-gray-50 dark:bg-zinc-800 dark:text-white" />
                       </div>
                     </div>
                     
@@ -422,7 +422,7 @@ const AdminDashboard = () => {
 
                       const blogPayload = {
                         title: editingBlog.title,
-                        metaTitle: editingBlog.metaTitle || editingBlog.title,
+                        meta_title: editingBlog.meta_title || editingBlog.title,
                         slug: finalSlug,
                         description: editingBlog.description,
                         image: editingBlog.image,

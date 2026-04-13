@@ -27,7 +27,7 @@ const BlogPostPage = () => {
         } else if (data) {
           setBlog(data);
           // Set browser tab title (Prioritize Meta Title)
-          document.title = data.metaTitle || data.title || 'Blog Post | Treasure';
+          document.title = data.meta_title || data.title || 'Blog Post | Treasure';
           
           let metaDesc = document.querySelector('meta[name="description"]');
           if (metaDesc) metaDesc.setAttribute('content', data.description || '');
