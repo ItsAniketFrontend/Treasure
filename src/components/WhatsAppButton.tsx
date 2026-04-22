@@ -12,6 +12,7 @@ const WhatsAppButton = () => {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
+      onClick={() => (window as any).gtag?.('event', 'Cogent_WhatsApp_Click', { event_category: 'Contact', event_label: 'Desktop WhatsApp Button' })}
       initial={{ opacity: 0, y: 20, scale: 0.8 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.9, type: "spring" }}

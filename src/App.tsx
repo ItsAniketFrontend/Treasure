@@ -70,6 +70,7 @@ const BottomBar = () => {
         {/* Call Now */}
         <a
           href={`tel:${settings?.phone || "+919353181818"}`}
+          onClick={() => (window as any).gtag?.('event', 'Cogent_Call_Click', { event_category: 'Contact', event_label: 'Mobile Call Button' })}
           className="flex-1 flex flex-col items-center justify-center py-2 text-gray-600 dark:text-gray-300 hover:text-[#A03333] dark:hover:text-[#A03333] transition-all rounded-3xl hover:bg-gray-100 dark:hover:bg-white/5 active:scale-95"
         >
           <Phone className="w-5 h-5 mb-1" />
@@ -81,6 +82,7 @@ const BottomBar = () => {
           href={`https://wa.me/${waPhone}?text=Hi%2C%20I%20want%20to%20connect.`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => (window as any).gtag?.('event', 'Cogent_WhatsApp_Click', { event_category: 'Contact', event_label: 'Mobile WhatsApp Button' })}
           className="flex-1 flex flex-col items-center justify-center py-2.5 text-white bg-gradient-to-tr from-[#20B25E] to-[#25D366] rounded-3xl shadow-lg shadow-green-500/30 transform transition-transform active:scale-95 border border-green-400/20"
         >
           <svg className="w-5 h-5 mb-1 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
