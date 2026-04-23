@@ -132,8 +132,12 @@ const FeaturesSection = ({ isDark, cmsData }: { isDark: boolean, cmsData?: any }
           {cmsData?.hero_title || 'Refined Residences Designed for your Comfort'}
         </h2>
 
+        <p className="font-['Playfair_Display'] text-stone-600 dark:text-white/80 mb-6 font-light leading-relaxed text-base sm:text-lg">
+          {cmsData?.hero_subtitle || 'Treasure offers some of the most thoughtfully crafted 2BHK and 3BHK flats in Vidhyadhar Nagar, Jaipur. Every apartment is laid out to maximize space, flood rooms with natural light, and ensure cross ventilation throughout the day.'}
+        </p>
+
         <p className="font-['Playfair_Display'] text-stone-600 dark:text-white/80 mb-8 font-light leading-relaxed text-base sm:text-lg">
-          {cmsData?.hero_subtitle || 'Treasure offers thoughtfully crafted apartment layouts, ensuring spacious interiors, cross ventilation, natural lighting, and luxury-grade detailing.'}
+          From luxury-grade finishes to precision detailing in every corner the interiors at Treasure reflect a standard of living that Jaipur's homebuyers have long deserved. Whether you are buying your first home or upgrading to something truly premium, Treasure delivers comfort without compromise.
         </p>
 
         <div className="grid grid-cols-1 gap-4 mb-8">
@@ -722,9 +726,39 @@ const LocationSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="font-['Playfair_Display'] text-stone-600 dark:text-white/80 leading-relaxed mb-10 text-lg lg:text-xl font-light"
+            className="font-['Playfair_Display'] text-stone-600 dark:text-white/80 leading-relaxed mb-6 text-lg lg:text-xl font-light"
           >
             Perfectly situated in one of Jaipur’s most calm residential zones, nested near the Aravallis. Treasure offers easy connectivity to schools, hospitals, markets, restaurants, and transport hubs.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="font-['Playfair_Display'] text-stone-600 dark:text-white/80 leading-relaxed mb-6 text-base lg:text-lg font-light"
+          >
+            Vidhyadhar Nagar is one of Jaipur's most sought-after residential addresses and Treasure sits right at its heart. Nestled in a calm, well-planned zone near the Aravallis, our apartments enjoy the rare combination of natural serenity and urban convenience.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="font-['Playfair_Display'] text-stone-600 dark:text-white/80 leading-relaxed mb-6 text-base lg:text-lg font-light"
+          >
+            When you buy a flat in Vidhyadhar Nagar, you gain effortless access to Jaipur's best schools, hospitals, markets, and transport hubs. With Sikar Road, Jaipur Junction, and the city's metro network all within easy reach, this is a location that adds lasting value to your investment.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="font-['Playfair_Display'] text-stone-600 dark:text-white/80 leading-relaxed mb-10 text-base lg:text-lg font-light"
+          >
+            Rated among Jaipur's top residential localities for safety, connectivity, and livability. Vidhyadhar Nagar is not just where Treasure is located. It is why Treasure was built here.
           </motion.p>
 
           <motion.div

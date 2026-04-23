@@ -91,28 +91,37 @@ const HeroSection = ({ cmsData }: { cmsData?: any }) => {
         </motion.h2>
 
         {/* 4. DESCRIPTION TEXT */}
-        <motion.p 
+        <motion.h1
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
           className="font-playfair text-sm md:text-base text-gray-200 max-w-lg md:max-w-2xl leading-relaxed opacity-90 mx-auto"
         >
-          {cmsData?.hero_subtitle || "You'll always know what goes into your home, no secrets, just exceptional standards."}
-        </motion.p>
-        
-        {/* 5. CTA BUTTON */}
+          {cmsData?.hero_subtitle || "A home that speaks in silence, Luxury Flats in Vidhyadhar Nagar Jaipur, where luxury is felt, not just seen."}
+        </motion.h1>
+
+        {/* 5. CTA BUTTONS */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0 }}
+          className="mt-12 flex flex-col sm:flex-row items-center gap-4"
         >
           <Link
             to="/about"
-            className="mt-12 inline-block px-10 py-3 border border-gray-300 text-white 
-                       font-playfair text-sm tracking-widest uppercase hover:bg-white hover:text-black 
+            className="inline-block px-10 py-3 border border-gray-300 text-white
+                       font-playfair text-sm tracking-widest uppercase hover:bg-white hover:text-black
                        transition-all duration-300 ease-in-out"
           >
             About Us
+          </Link>
+          <Link
+            to="/contact"
+            className="inline-block px-10 py-3 border border-white bg-white text-black
+                       font-playfair text-sm tracking-widest uppercase hover:bg-transparent hover:text-white
+                       transition-all duration-300 ease-in-out"
+          >
+            Enquire Now
           </Link>
         </motion.div>
       </div>

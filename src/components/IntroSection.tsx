@@ -100,7 +100,11 @@ const IntroSection = ({ cmsData }: { cmsData?: any }) => {
             <div className="h-[1px] w-16 bg-stone-400 mb-8" />
 
             <p className="font-['Playfair_Display'] text-stone-600 dark:text-stone-300 mb-6 leading-loose text-base lg:text-lg max-w-lg">
-              {cmsData?.intro_text || 'Architecture, for us, is an experience, a rhythm of proportion, material, and calm. At Treasure, every home is imagined not as a structure but as a relationship: between light and space, between family and home, between craft and comfort. We design to endure, thoughtfully, gracefully, and without restraint. The result is a home that feels timeless from the day it is finished.'}
+              {cmsData?.intro_text || 'At Treasure, architecture is more than construction, it is an experience. A careful rhythm of proportion, natural light, and material quality that transforms four walls into a home you feel the moment you walk in.'}
+            </p>
+
+            <p className="font-['Playfair_Display'] text-stone-600 dark:text-stone-300 mb-6 leading-loose text-base lg:text-lg max-w-lg">
+              Every flat at Treasure, Vidhyadhar Nagar has been designed with one belief: that the finest apartments in Jaipur should feel timeless from the day they are finished. Between light and space, between family and home, between craft and comfort, it strikes a balance that is rare, and entirely intentional.
             </p>
 
           </motion.div>
