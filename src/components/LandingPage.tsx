@@ -787,8 +787,14 @@ const LocationSection = () => {
   );
 };
 
-const SocialIcon = ({ icon }: { icon: React.ReactNode }) => (
-  <a href="#" className="w-10 h-10 rounded-full bg-[#1A0B09] flex items-center justify-center text-white/70 hover:bg-white hover:text-[#4A2521] transition-all duration-300">
+const SocialIcon = ({ icon, href = "#", label }: { icon: React.ReactNode; href?: string; label?: string }) => (
+  <a
+    href={href}
+    target={href === "#" ? undefined : "_blank"}
+    rel={href === "#" ? undefined : "noopener noreferrer"}
+    aria-label={label}
+    className="w-10 h-10 rounded-full bg-[#1A0B09] flex items-center justify-center text-white/70 hover:bg-white hover:text-[#4A2521] transition-all duration-300"
+  >
     {icon}
   </a>
 );
@@ -872,10 +878,10 @@ const Footer = () => {
             </div>
 
             <div className="flex gap-3 pt-2">
-              <SocialIcon icon={<Facebook size={14} />} />
-              <SocialIcon icon={<Linkedin size={14} />} />
-              <SocialIcon icon={<Twitter size={14} />} />
-              <SocialIcon icon={<Youtube size={14} />} />
+              <SocialIcon icon={<Facebook size={14} />} href="https://www.facebook.com/profile.php?id=61585526793030" label="Facebook" />
+              <SocialIcon icon={<Linkedin size={14} />} href="https://www.linkedin.com/company/katewa-groups/" label="LinkedIn" />
+              <SocialIcon icon={<Twitter size={14} />} label="Twitter" />
+              <SocialIcon icon={<Youtube size={14} />} href="https://www.youtube.com/@KatewaCompanies-km1dh" label="YouTube" />
             </div>
           </div>
 

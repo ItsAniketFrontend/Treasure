@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Facebook, Twitter, Linkedin, Youtube, Instagram } from 'lucide-react';
+import { Mail, Facebook, Linkedin, Youtube, Instagram } from 'lucide-react';
 import { useCMS } from '../hooks/useCMS';
 import { useTheme } from './ThemeContext';
 
@@ -44,10 +44,10 @@ const Footer = () => {
           <div className="w-full md:w-auto">
             <h3 className="text-sm font-bold uppercase tracking-[0.2em] mb-8">Connect With Us</h3>
             <div className="grid grid-cols-2 gap-x-12 gap-y-8">
-                <SocialLink href={settings?.facebook || "#"} icon={<Facebook size={18} />} label="Facebook" />
-                <SocialLink href={settings?.instagram || "#"} icon={<Instagram size={18} />} label="Instagram" />
-                <SocialLink href={settings?.twitter || "#"} icon={<Twitter size={18} />} label="Twitter" />
-                <SocialLink href={settings?.linkedin || "#"} icon={<Linkedin size={18} />} label="LinkedIn" />
+                <SocialLink href={settings?.facebook || "https://www.facebook.com/profile.php?id=61585526793030"} icon={<Facebook size={18} />} label="Facebook" />
+                <SocialLink href={settings?.instagram || "https://www.instagram.com/treasurejaipur"} icon={<Instagram size={18} />} label="Instagram" />
+                <SocialLink href={settings?.linkedin || "https://www.linkedin.com/company/katewa-groups/"} icon={<Linkedin size={18} />} label="LinkedIn" />
+                <SocialLink href={settings?.youtube || "https://www.youtube.com/@KatewaCompanies-km1dh"} icon={<Youtube size={18} />} label="YouTube" />
             </div>
           </div>
         </div>
