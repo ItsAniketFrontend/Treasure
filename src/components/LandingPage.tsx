@@ -710,7 +710,7 @@ const LocationSection = () => {
             transition={{ duration: 0.8 }}
             className="text-3xl md:text-5xl font-['Oswald'] text-[#4A2521] dark:text-white uppercase tracking-widest mb-8 leading-tight"
           >
-            Located at <br /> Vidhyadhar Nagar, Jaipur
+            Premium Flats Located at <br /> Vidhyadhar Nagar, Jaipur
           </motion.h2>
 
           <motion.div
