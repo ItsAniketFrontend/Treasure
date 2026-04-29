@@ -63,14 +63,16 @@ const HeroSection = ({ cmsData }: { cmsData?: any }) => {
       <div className="relative z-20 h-full flex flex-col justify-center items-center text-center px-4">
         
         {/* 1. MAIN TITLE */}
-        <motion.h1 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
+          role="presentation"
+          aria-label="Treasure"
           className="font-oswald text-6xl md:text-6xl lg:text-7xl text-white uppercase tracking-[0.15em] leading-none drop-shadow-lg"
         >
           {cmsData?.hero_title || 'Treasure'}
-        </motion.h1>
+        </motion.div>
 
         {/* 2. DIVIDER LINE (New Element) */}
         <motion.div 
