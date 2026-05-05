@@ -54,31 +54,5 @@ export const useCMS = (pageId: string) => {
     return () => window.removeEventListener('cms_data_updated', fetchMetadata);
   }, [pageId]);
 
-  useEffect(() => {
-    if (metadata) {
-      // Update Title
-      document.title = metadata.title || 'Treasure Jaipur | Luxury Residences';
-
-      // Update Meta Description
-      let metaDesc = document.querySelector('meta[name="description"]');
-      if (!metaDesc) {
-        metaDesc = document.createElement('meta');
-        metaDesc.setAttribute('name', 'description');
-        document.head.appendChild(metaDesc);
-      }
-      metaDesc.setAttribute('content', metadata.description);
-
-      // Update Schema
-      let scriptSchema = document.getElementById(`schema-${pageId}`);
-      if (!scriptSchema) {
-        scriptSchema = document.createElement('script');
-        scriptSchema.id = `schema-${pageId}`;
-        scriptSchema.setAttribute('type', 'application/ld+json');
-        document.head.appendChild(scriptSchema);
-      }
-      scriptSchema.innerHTML = metadata.schema || '{}';
-    }
-  }, [metadata, pageId]);
-
   return { data: metadata };
 };
