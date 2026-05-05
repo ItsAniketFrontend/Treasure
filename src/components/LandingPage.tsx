@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 // --- PLACEHOLDERS FOR EXTERNAL IMPORTS ---
 import HeroSection from './HeroSection';
 import IntroSection from './IntroSection';
+import SEO from './SEO';
 import { useCMS } from '../hooks/useCMS';
 import { useUI } from '../context/UIContext';
 import { useTheme } from './ThemeContext';
@@ -23,8 +24,13 @@ const LandingPage = () => {
 
   return (
     <main className={`min-h-screen transition-colors duration-700 ease-in-out font-sans overflow-x-hidden
-      bg-[#F9F9F7] text-stone-800 
+      bg-[#F9F9F7] text-stone-800
       dark:bg-[#2A0A0A] dark:text-white`}>
+
+      <SEO
+        title="Luxury Flats & Apartments in Vidhyadhar Nagar, Jaipur"
+        description="Treasure offers thoughtfully crafted 2BHK and 3BHK luxury flats in Vidhyadhar Nagar, Jaipur. Premium finishes, natural light, and timeless design."
+      />
 
       {/* MOBILE HEADER: Visible only on mobile */}
       <div className="md:hidden fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6 mix-blend-difference text-white">

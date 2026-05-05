@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from './ThemeContext';
 import { useUI } from '../context/UIContext';
 import Footer from './Footer';
+import SEO from './SEO';
 
 const treasureData = [
   { id: 1, title: "GUEST BEDROOM", subtitle: "Treasure", src: "/assets/images/twentynine.png" },
@@ -27,8 +28,12 @@ const Projects = () => {
 
     return (
         <div className={`min-h-screen w-full font-sans transition-colors duration-700 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
+            <SEO
+              title="Treasure | Premium 2BHK & 3BHK Flats in Vidhyadhar Nagar, Jaipur"
+              description="Explore Treasure: 2BHK and 3BHK luxury flats in Vidhyadhar Nagar, Jaipur, with floor plans, finishes, and amenities curated for timeless living."
+            />
             <main className="relative pl-0 md:pl-24">
-                
+
                 {/* Header */}
                 <header className="fixed top-0 left-0 w-full z-50 p-6 md:pl-36 md:pr-12 flex justify-between md:justify-end items-center pointer-events-none">
                     <div className="md:hidden pointer-events-auto"><button onClick={openMenu} className="p-2 bg-black/20 rounded-lg backdrop-blur-md"><Menu size={32} className="text-white" /></button></div>

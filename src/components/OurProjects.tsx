@@ -5,6 +5,7 @@ import { useTheme } from './ThemeContext';
 import { useUI } from '../context/UIContext';
 import { useCMS } from '../hooks/useCMS';
 import Footer from './Footer';
+import SEO from './SEO';
 
 const PROJECTS_DATA = [
   { id: 1, name: "Treasure", slug: "treasure", image: "/assets/images/twentyeight.png", desc: "A series of residences shaped by measured proportions and natural materials." },
@@ -18,8 +19,12 @@ const OurProjectsPage = () => {
 
   return (
     <div className={`min-h-screen w-full font-sans transition-colors duration-700 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
+      <SEO
+        title="Our Projects | Treasure - Premium Residences in Jaipur"
+        description="Explore Treasure's portfolio of premium residential projects in Jaipur, including luxury 2BHK and 3BHK flats in Vidhyadhar Nagar."
+      />
       <main className="relative pl-0 md:pl-24 overflow-hidden">
-        
+
         <header className="fixed top-0 left-0 w-full z-50 p-6 md:pl-36 md:pr-12 flex justify-between md:justify-end items-center pointer-events-none">
           <div className="md:hidden pointer-events-auto"><button onClick={openMenu} className="p-2 bg-black/20 rounded-lg backdrop-blur-md"><Menu size={32} className="text-white" /></button></div>
           <button onClick={toggleTheme} className="pointer-events-auto p-3 rounded-full border transition-all bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20">{isDark ? <Sun size={20} /> : <Moon size={20} />}</button>

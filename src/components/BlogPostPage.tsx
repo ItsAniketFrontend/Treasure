@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useTheme } from './ThemeContext';
 import { Calendar, User, ArrowLeft, Share2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import SEO from './SEO';
 
 const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -26,11 +27,6 @@ const BlogPostPage = () => {
           setError(fetchError.message);
         } else if (data) {
           setBlog(data);
-          // Set browser tab title (Prioritize Meta Title)
-          document.title = data.meta_title || data.title || 'Blog Post | Treasure';
-          
-          let metaDesc = document.querySelector('meta[name="description"]');
-          if (metaDesc) metaDesc.setAttribute('content', data.description || '');
         } else {
           setError('Post not found');
         }
@@ -63,6 +59,12 @@ const BlogPostPage = () => {
 
   return (
     <article className={`min-h-screen py-24 px-6 md:px-24 transition-colors duration-500 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
+      <SEO
+        title={blog.meta_title || `${blog.title} | Treasure Blog`}
+        description={blog.description || `Read "${blog.title}" on the Treasure blog.`}
+        image={blog.image}
+        type="article"
+      />
       <div className="max-w-4xl mx-auto">
         <Link 
           to="/blog" 

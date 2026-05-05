@@ -5,6 +5,7 @@ import { useTheme } from './ThemeContext';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useCMS } from '../hooks/useCMS';
+import SEO from './SEO';
 
 const BlogPage = () => {
   const { isDark } = useTheme();
@@ -24,6 +25,10 @@ const BlogPage = () => {
 
   return (
     <div className={`min-h-screen py-24 px-6 md:px-24 transition-colors duration-500 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
+      <SEO
+        title="Treasure Blog | Stories on Architecture, Design and Living in Jaipur"
+        description="Insights and stories on premium living, architecture, and design from Treasure's team in Jaipur."
+      />
       <div className="max-w-7xl mx-auto">
         <header className="mb-16">
           <motion.span 

@@ -6,6 +6,7 @@ import { useTheme } from './ThemeContext';
 import { useUI } from '../context/UIContext';
 import { useCMS } from '../hooks/useCMS';
 import Footer from './Footer';
+import SEO from './SEO';
 
 const LOCAL_ASSETS = {
   hero: "/assets/images/sixteen.png",
@@ -61,6 +62,10 @@ const AboutUsPage = () => {
 
     return (
       <div className={`min-h-screen w-full font-sans relative transition-colors duration-700 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-slate-800'}`}>
+        <SEO
+          title="About Treasure | Luxury Flats in Vidhyadhar Nagar, Jaipur"
+          description="Treasure by Katewa Companies designs premium homes in Vidhyadhar Nagar, Jaipur, with thoughtful architecture, quality craftsmanship, and timeless interiors."
+        />
         <main className="relative w-full pl-0 md:pl-24 overflow-hidden">
           <header className="absolute md:fixed top-0 left-0 w-full z-50 px-6 py-4 md:pl-36 md:pr-12 md:py-6 flex justify-between md:justify-end items-center">
               <div className="flex md:hidden items-center gap-4">

@@ -5,6 +5,7 @@ import { useTheme } from './ThemeContext';
 import { useUI } from '../context/UIContext';
 import { useCMS } from '../hooks/useCMS';
 import Footer from './Footer';
+import SEO from './SEO';
 import toast from "react-hot-toast";
 
 const LOCAL_ASSETS = {
@@ -26,8 +27,12 @@ const ContactPage = () => {
 
   return (
     <div className={`min-h-screen w-full font-sans transition-colors duration-700 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
+      <SEO
+        title="Contact Treasure | Schedule a Visit in Vidhyadhar Nagar, Jaipur"
+        description="Schedule a site visit or request more details about Treasure's premium 2BHK and 3BHK flats in Vidhyadhar Nagar, Jaipur. Call +91 93531 81818."
+      />
       <main className="relative pl-0 md:pl-24 overflow-hidden">
-        
+
         {/* Mobile Header */}
         <header className="md:hidden fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center bg-transparent">
           <button onClick={openMenu}><Menu size={32} className={isDark ? 'text-white' : 'text-stone-800'} /></button>
