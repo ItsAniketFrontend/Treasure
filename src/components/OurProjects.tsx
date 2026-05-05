@@ -1,4 +1,4 @@
-import { Sun, Moon, Menu, ArrowRight } from 'lucide-react';
+import { Menu, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTheme } from './ThemeContext';
@@ -13,7 +13,7 @@ const PROJECTS_DATA = [
 ];
 
 const OurProjectsPage = () => {
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark } = useTheme();
   const { openMenu } = useUI();
   const { data: cmsData } = useCMS('projects');
 
@@ -27,7 +27,6 @@ const OurProjectsPage = () => {
 
         <header className="fixed top-0 left-0 w-full z-50 p-6 md:pl-36 md:pr-12 flex justify-between md:justify-end items-center pointer-events-none">
           <div className="md:hidden pointer-events-auto"><button onClick={openMenu} className="p-2 bg-black/20 rounded-lg backdrop-blur-md"><Menu size={32} className="text-white" /></button></div>
-          <button onClick={toggleTheme} className="pointer-events-auto p-3 rounded-full border transition-all bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20">{isDark ? <Sun size={20} /> : <Moon size={20} />}</button>
         </header>
 
         <section className="relative py-24 md:py-32 px-6 md:px-24 max-w-7xl mx-auto">

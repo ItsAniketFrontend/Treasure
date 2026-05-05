@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, MapPin, Menu, Sun, Moon, ArrowRight, Phone } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, MapPin, Menu, ArrowRight, Phone } from 'lucide-react';
 import { useTheme } from './ThemeContext';
 import { useUI } from '../context/UIContext';
 import { useCMS } from '../hooks/useCMS';
@@ -14,7 +13,7 @@ const LOCAL_ASSETS = {
 };
 
 const ContactPage = () => {
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark } = useTheme();
   const { openMenu } = useUI();
   const { data: cmsData } = useCMS('contact');
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
@@ -37,13 +36,7 @@ const ContactPage = () => {
         <header className="md:hidden fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center bg-transparent">
           <button onClick={openMenu}><Menu size={32} className={isDark ? 'text-white' : 'text-stone-800'} /></button>
           <img src={LOCAL_ASSETS.logo} alt="Logo" className={`h-8 w-auto ${isDark ? 'brightness-100' : 'brightness-0'}`} />
-          <button onClick={toggleTheme}>{isDark ? <Sun size={24} /> : <Moon size={24} />}</button>
         </header>
-
-        {/* Desktop Theme Toggle */}
-        <div className="hidden md:block fixed top-8 right-12 z-50">
-          <button onClick={toggleTheme} className={`p-3 rounded-full border transition-all ${isDark ? 'bg-black/40 border-white text-white' : 'bg-white/20 border-stone-800 text-stone-800'}`}>{isDark ? <Sun size={20} /> : <Moon size={20} />}</button>
-        </div>
 
         <section className="relative py-24 md:py-32 px-6 md:px-24">
           <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">

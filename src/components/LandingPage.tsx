@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
   X, Phone, ArrowRight,
-  Menu, Sun, Moon, Mail, MapPin, Facebook, Twitter, Linkedin, Youtube
+  Menu, Mail, MapPin, Facebook, Twitter, Linkedin, Youtube
 } from 'lucide-react';
 import toast from "react-hot-toast";
 
@@ -18,7 +18,7 @@ import { useTheme } from './ThemeContext';
 // --- MAIN COMPONENT ---
 
 const LandingPage = () => {
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark } = useTheme();
   const { openMenu } = useUI();
   const { data: cmsData } = useCMS('home');
 
@@ -36,22 +36,6 @@ const LandingPage = () => {
       <div className="md:hidden fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6 mix-blend-difference text-white">
         <button onClick={openMenu} aria-label="Open Menu">
           <Menu size={32} />
-        </button>
-        <button onClick={toggleTheme} className="p-2 rounded-full border border-white/20 hover:bg-white/10">
-          {isDark ? <Sun size={20} /> : <Moon size={20} />}
-        </button>
-      </div>
-
-      {/* DESKTOP TOGGLE: Floating top-right */}
-      <div className="hidden md:block fixed top-8 right-12 z-50">
-        <button
-          onClick={toggleTheme}
-          className={`p-3 rounded-full border transition-all duration-300 backdrop-blur-md shadow-sm ${isDark
-              ? 'bg-black/40 border-white text-white hover:bg-white/20'
-              : 'bg-white/20 border-white text-white hover:bg-white/30'
-            }`}
-        >
-          {isDark ? <Sun size={20} /> : <Moon size={20} />}
         </button>
       </div>
 
@@ -94,7 +78,7 @@ const VideoSection = () => (
 
 const UNIT_FEATURES = [''];
 
-const FeaturesSection = ({ isDark, cmsData }: { isDark: boolean, cmsData?: any }) => (
+const FeaturesSection = ({ cmsData }: { isDark: boolean, cmsData?: any }) => (
   <section className="relative py-16 md:py-32 px-6 md:px-24 max-w-[1600px] mx-auto overflow-hidden">
 
     <div className="

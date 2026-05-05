@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Sun, Moon } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from './ThemeContext';
 import { useUI } from '../context/UIContext';
@@ -55,7 +55,7 @@ const StatsSection = () => {
 };
 
 const AboutUsPage = () => {
-    const { isDark, toggleTheme } = useTheme();
+    const { isDark } = useTheme();
     const { openMenu } = useUI();
     const { data: cmsData } = useCMS('about');
     const [isExpanded, setIsExpanded] = useState(false);
@@ -74,7 +74,6 @@ const AboutUsPage = () => {
                   </button>
                   <img src={LOCAL_ASSETS.logo} alt="Logo" className={`h-8 w-auto ${isDark ? 'brightness-100' : 'brightness-0'}`} />
               </div>
-              <button onClick={toggleTheme} className={`p-3 rounded-full border transition-all ${isDark ? 'bg-black/40 border-white text-white' : 'bg-white/20 border-stone-800 text-stone-800'}`}>{isDark ? <Sun size={20} /> : <Moon size={20} />}</button>
           </header>
 
           <section className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden mb-12 group">
