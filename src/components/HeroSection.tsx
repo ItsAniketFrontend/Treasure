@@ -99,7 +99,9 @@ const HeroSection = ({ cmsData }: { cmsData?: any }) => {
           transition={{ delay: 0.8, duration: 0.8 }}
           className="font-playfair text-sm md:text-base text-gray-200 max-w-lg md:max-w-2xl leading-relaxed opacity-90 mx-auto"
         >
-          {cmsData?.hero_subtitle || "A home that speaks in silence, Luxury Flats in Vidhyadhar Nagar Jaipur, where luxury is felt, not just seen."}
+          CRAFTED CURATED COMPLETE
+          <br />
+          Luxury flats in Vidyadhar nagar Jaipur
         </motion.h1>
 
         {/* 5. CTA BUTTONS */}
