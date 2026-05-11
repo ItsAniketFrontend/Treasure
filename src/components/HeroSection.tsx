@@ -101,7 +101,7 @@ const HeroSection = ({ cmsData }: { cmsData?: any }) => {
         >
           CRAFTED CURATED COMPLETE
           <br />
-          Luxury flats in Vidyadhar nagar Jaipur
+          Luxury flats in Vidhyadhar Nagar Jaipur
         </motion.h1>
 
         {/* 5. CTA BUTTONS */}
