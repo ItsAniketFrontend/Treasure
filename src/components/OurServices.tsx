@@ -35,7 +35,7 @@ const OurServicesPage = () => {
         <section className="relative h-[40vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
           <img src="/assets/images/sixtyone.png" className="absolute inset-0 w-full h-full object-cover brightness-50" />
           <div className="relative z-10 text-center px-6">
-            <h1 className="text-4xl md:text-7xl font-['Playfair_Display'] font-bold text-white uppercase tracking-tight">{cmsData?.heading || "Excellence in Craft"}</h1>
+            <h1 className="text-4xl md:text-7xl font-['Playfair_Display'] font-bold text-white uppercase tracking-tight">God is in the details</h1>
             <p className="mt-6 text-lg md:text-xl text-white/80 font-['Playfair_Display'] max-w-2xl mx-auto">{cmsData?.description || "Providing comprehensive design and development solutions for Jaipur's elite residences."}</p>
           </div>
         </section>
