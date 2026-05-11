@@ -3,7 +3,6 @@ import { Menu } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from './ThemeContext';
 import { useUI } from '../context/UIContext';
-import { useCMS } from '../hooks/useCMS';
 import Footer from './Footer';
 import SEO from './SEO';
 
@@ -16,7 +15,6 @@ const services = [
 const OurServicesPage = () => {
   const { isDark } = useTheme();
   const { openMenu } = useUI();
-  const { data: cmsData } = useCMS('services');
   const [activeService, setActiveService] = useState(0);
 
   return (
@@ -36,7 +34,7 @@ const OurServicesPage = () => {
           <img src="/assets/images/sixtyone.png" className="absolute inset-0 w-full h-full object-cover brightness-50" />
           <div className="relative z-10 text-center px-6">
             <h1 className="text-4xl md:text-7xl font-['Playfair_Display'] font-bold text-white uppercase tracking-tight">God is in the details</h1>
-            <p className="mt-6 text-lg md:text-xl text-white/80 font-['Playfair_Display'] max-w-2xl mx-auto">{cmsData?.description || "Providing comprehensive design and development solutions for Jaipur's elite residences."}</p>
+            <p className="mt-6 text-lg md:text-xl text-white/80 font-['Playfair_Display'] max-w-2xl mx-auto">At Katewa companies we create and deliver exceptional real estate experience... from exclusive land acquisitions &amp; handpicked selections to seamless execution</p>
           </div>
         </section>
 
