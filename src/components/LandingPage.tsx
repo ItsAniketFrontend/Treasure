@@ -15,6 +15,102 @@ import { useCMS } from '../hooks/useCMS';
 import { useUI } from '../context/UIContext';
 import { useTheme } from './ThemeContext';
 
+const HOME_SCHEMAS = [
+  {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "RealEstateAgent"],
+    "@id": "https://www.katewacompanies.in/#business",
+    "name": "Katewa Companies",
+    "alternateName": "Katewa Groups",
+    "description": "Katewa Companies is a top residential builder and developer in Jaipur offering luxury 2, 3 & 4 BHK flats and apartments at Treasure, Vidhyadhar Nagar. Premium homes designed for comfort and modern living.",
+    "url": "https://www.katewacompanies.in/",
+    "telephone": "+919353181818",
+    "email": "admin@katewacompanies.in",
+    "priceRange": "Starting from INR 2 Cr",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.katewacompanies.in/assets/images/logo.png"
+    },
+    "image": "https://www.katewacompanies.in/assets/images/five.png",
+    "founder": {
+      "@type": "Person",
+      "name": "Robin Katewa"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "10:00",
+        "closes": "19:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Sunday",
+        "opens": "11:00",
+        "closes": "17:00"
+      }
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Vidhyadhar Nagar",
+      "addressLocality": "Jaipur",
+      "addressRegion": "Rajasthan",
+      "postalCode": "302039",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 26.9589,
+      "longitude": 75.7861
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Jaipur"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Treasure — Luxury Residences, Vidhyadhar Nagar",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "name": "2 BHK Luxury Apartment",
+          "description": "Spacious 2 BHK luxury apartment at Treasure, Vidhyadhar Nagar — a blend of elegance and modern comfort.",
+          "priceCurrency": "INR"
+        },
+        {
+          "@type": "Offer",
+          "name": "3 BHK Luxury Apartment",
+          "description": "Premium 3 BHK apartment at Treasure with ample space and world-class amenities for luxurious living.",
+          "priceCurrency": "INR"
+        },
+        {
+          "@type": "Offer",
+          "name": "4 BHK Luxury Apartment",
+          "description": "Expansive 4 BHK apartment at Treasure, Vidhyadhar Nagar — ideal for families seeking an upscale lifestyle.",
+          "priceCurrency": "INR"
+        }
+      ]
+    },
+    "sameAs": [
+      "https://www.instagram.com/treasurejaipur",
+      "https://www.facebook.com/profile.php?id=61585526793030",
+      "https://www.linkedin.com/company/katewa-groups/"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://www.katewacompanies.in/#website",
+    "name": "Katewa Companies",
+    "url": "https://www.katewacompanies.in/",
+    "description": "Luxury flats and apartments in Jaipur by Katewa Companies. Explore premium 2, 3 & 4 BHK residences at Treasure, Vidhyadhar Nagar.",
+    "inLanguage": "en-IN",
+    "publisher": {
+      "@id": "https://www.katewacompanies.in/#business"
+    }
+  }
+];
+
 // --- MAIN COMPONENT ---
 
 const LandingPage = () => {
@@ -30,6 +126,7 @@ const LandingPage = () => {
       <SEO
         title="Luxury Flats & Apartments in Vidhyadhar Nagar, Jaipur"
         description="Discover luxury flats and apartments in Jaipur by Katewa Companies. Premium residences at Treasure, Vidhyadhar Nagar. Book a site visit today."
+        schemas={HOME_SCHEMAS}
       />
 
       {/* MOBILE HEADER: Visible only on mobile */}

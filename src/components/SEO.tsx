@@ -11,6 +11,7 @@ type SEOProps = {
   image?: string;
   url?: string;
   type?: string;
+  schemas?: object[];
 };
 
 const SEO = ({
@@ -19,6 +20,7 @@ const SEO = ({
   image = DEFAULT_IMAGE,
   url,
   type = 'website',
+  schemas,
 }: SEOProps) => {
   const canonical = url || (typeof window !== 'undefined' ? window.location.href : '');
 
@@ -39,6 +41,12 @@ const SEO = ({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       {image && <meta name="twitter:image" content={image} />}
+
+      {schemas?.map((schema, i) => (
+        <script key={i} type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      ))}
     </Helmet>
   );
 };
