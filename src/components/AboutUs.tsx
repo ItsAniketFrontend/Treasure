@@ -54,6 +54,48 @@ const StatsSection = () => {
   );
 };
 
+const ABOUT_SCHEMAS = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://www.katewacompanies.in/about-us/#organization",
+    "name": "Katewa Companies",
+    "alternateName": "Katewa Groups",
+    "description": "Katewa Companies is a top residential builder and real estate developer in Jaipur, Rajasthan. Delivering luxury flats and apartments built on quality, trust and a vision for modern living.",
+    "url": "https://www.katewacompanies.in/about-us/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.katewacompanies.in/assets/images/logo.png"
+    },
+    "image": "https://www.katewacompanies.in/assets/images/five.png",
+    "telephone": "+91-9353181818",
+    "email": "admin@katewacompanies.in",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Vidhyadhar Nagar",
+      "addressLocality": "Jaipur",
+      "addressRegion": "Rajasthan",
+      "postalCode": "302039",
+      "addressCountry": "IN"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Jaipur"
+    },
+    "knowsAbout": [
+      "Luxury Residential Apartments",
+      "Premium Flats in Jaipur",
+      "Real Estate Development",
+      "Residential Construction"
+    ],
+    "sameAs": [
+      "https://www.instagram.com/treasurejaipur",
+      "https://www.facebook.com/profile.php?id=61585526793030",
+      "https://www.linkedin.com/company/katewa-groups/"
+    ]
+  }
+];
+
 const AboutUsPage = () => {
     const { isDark } = useTheme();
     const { openMenu } = useUI();
@@ -65,6 +107,7 @@ const AboutUsPage = () => {
         <SEO
           title="Katewa Companies | Top Builder & Real Estate Developer in Jaipur"
           description="Katewa Companies is a top residential builder and developer in Jaipur. Delivering luxury flats and apartments across Jaipur with a commitment to quality, trust and modern living."
+          schemas={ABOUT_SCHEMAS}
         />
         <main className="relative w-full pl-0 md:pl-24 overflow-hidden">
           <header className="absolute md:fixed top-0 left-0 w-full z-50 px-6 py-4 md:pl-36 md:pr-12 md:py-6 flex justify-between md:justify-end items-center">
