@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 
 const DEFAULT_TITLE = 'Luxury Flats & Apartments in Vidhyadhar Nagar, Jaipur';
 const DEFAULT_DESCRIPTION =
-  'Treasure offers thoughtfully crafted 2BHK and 3BHK luxury flats in Vidhyadhar Nagar, Jaipur. Premium finishes, natural light, and timeless design.';
+  'Discover luxury flats and apartments in Jaipur by Katewa Companies. Premium residences at Treasure, Vidhyadhar Nagar. Book a site visit today.';
 const DEFAULT_IMAGE = '/assets/images/two.png';
 
 type SEOProps = {
@@ -33,7 +33,7 @@ const SEO = ({
       <meta property="og:description" content={description} />
       {image && <meta property="og:image" content={image} />}
       {canonical && <meta property="og:url" content={canonical} />}
-      <meta property="og:site_name" content="Treasure" />
+      <meta property="og:site_name" content="Katewa Companies" />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />

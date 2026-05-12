@@ -20,8 +20,8 @@ const OurProjectsPage = () => {
   return (
     <div className={`min-h-screen w-full font-sans transition-colors duration-700 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
       <SEO
-        title="Our Projects | Treasure - Premium Residences in Jaipur"
-        description="Explore Treasure's portfolio of premium residential projects in Jaipur, including luxury 2BHK and 3BHK flats in Vidhyadhar Nagar."
+        title="Luxury Residential Projects in Jaipur | Katewa Companies"
+        description="Explore residential projects by Katewa Companies in Jaipur. From Treasure to Limited Edition — architectural excellence translated into premium living spaces."
       />
       <main className="relative pl-0 md:pl-24 overflow-hidden">
 

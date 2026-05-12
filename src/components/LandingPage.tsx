@@ -29,7 +29,7 @@ const LandingPage = () => {
 
       <SEO
         title="Luxury Flats & Apartments in Vidhyadhar Nagar, Jaipur"
-        description="Treasure offers thoughtfully crafted 2BHK and 3BHK luxury flats in Vidhyadhar Nagar, Jaipur. Premium finishes, natural light, and timeless design."
+        description="Discover luxury flats and apartments in Jaipur by Katewa Companies. Premium residences at Treasure, Vidhyadhar Nagar. Book a site visit today."
       />
 
       {/* MOBILE HEADER: Visible only on mobile */}

@@ -20,8 +20,8 @@ const OurServicesPage = () => {
   return (
     <div className={`min-h-screen w-full font-sans transition-colors duration-700 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
       <SEO
-        title="Our Services | Treasure - Architecture & Interiors in Jaipur"
-        description="Architecture, interior design, and project management services by Treasure for premium 2BHK and 3BHK flats in Vidhyadhar Nagar, Jaipur."
+        title="Architecture, Interior Design & Project Management | Katewa Companies"
+        description="Katewa Companies offers end-to-end services in architecture & space planning, interior design & material selection, and project management in Jaipur."
       />
       <main className="relative pl-0 md:pl-24 overflow-hidden">
 

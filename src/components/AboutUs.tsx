@@ -63,8 +63,8 @@ const AboutUsPage = () => {
     return (
       <div className={`min-h-screen w-full font-sans relative transition-colors duration-700 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-slate-800'}`}>
         <SEO
-          title="About Treasure | Luxury Flats in Vidhyadhar Nagar, Jaipur"
-          description="Treasure by Katewa Companies designs premium homes in Vidhyadhar Nagar, Jaipur, with thoughtful architecture, quality craftsmanship, and timeless interiors."
+          title="Katewa Companies | Top Builder & Real Estate Developer in Jaipur"
+          description="Katewa Companies is a top residential builder and developer in Jaipur. Delivering luxury flats and apartments across Jaipur with a commitment to quality, trust and modern living."
         />
         <main className="relative w-full pl-0 md:pl-24 overflow-hidden">
           <header className="absolute md:fixed top-0 left-0 w-full z-50 px-6 py-4 md:pl-36 md:pr-12 md:py-6 flex justify-between md:justify-end items-center">

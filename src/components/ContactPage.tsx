@@ -27,8 +27,8 @@ const ContactPage = () => {
   return (
     <div className={`min-h-screen w-full font-sans transition-colors duration-700 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
       <SEO
-        title="Contact Treasure | Schedule a Visit in Vidhyadhar Nagar, Jaipur"
-        description="Schedule a site visit or request more details about Treasure's premium 2BHK and 3BHK flats in Vidhyadhar Nagar, Jaipur. Call +91 93531 81818."
+        title="Contact Katewa Companies | Get in Touch With Us"
+        description="Have questions about your dream home? Contact Katewa Companies today. Visit our office, call us or fill our enquiry form. We respond within 24 hours."
       />
       <main className="relative pl-0 md:pl-24 overflow-hidden">
 

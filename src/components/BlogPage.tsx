@@ -26,8 +26,8 @@ const BlogPage = () => {
   return (
     <div className={`min-h-screen py-24 px-6 md:px-24 transition-colors duration-500 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
       <SEO
-        title="Treasure Blog | Stories on Architecture, Design and Living in Jaipur"
-        description="Insights and stories on premium living, architecture, and design from Treasure's team in Jaipur."
+        title="Blogs | Katewa Companies"
+        description="Explore real estate tips, property trends and home buying insights from Katewa Companies. Expert advice on luxury living in Jaipur."
       />
       <div className="max-w-7xl mx-auto">
         <header className="mb-16">
