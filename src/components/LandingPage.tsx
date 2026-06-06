@@ -71,6 +71,8 @@ const VideoSection = () => (
     <img
       src="/assets/images/five.png"
       alt="Property Showcase"
+      loading="lazy"
+      decoding="async"
       className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
     />
   </section>
@@ -104,6 +106,8 @@ const FeaturesSection = ({ cmsData }: { isDark: boolean, cmsData?: any }) => (
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           src="/assets/images/seven.png"
+          loading="lazy"
+          decoding="async"
           className="absolute left-0 top-0 w-[70%] md:w-[55%] h-[80%] object-cover z-10 shadow-lg"
         />
 
@@ -112,6 +116,8 @@ const FeaturesSection = ({ cmsData }: { isDark: boolean, cmsData?: any }) => (
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           src="/assets/images/six.png"
+          loading="lazy"
+          decoding="async"
           className="absolute right-0 bottom-0 w-[70%] md:w-[55%] h-[75%] object-cover z-0"
         />
       </div>
@@ -307,6 +313,8 @@ const GalleryCard = ({ item, onClick }: { item: any, onClick: (item: any) => voi
     <img
       src={item.src}
       alt={item.title}
+      loading="lazy"
+      decoding="async"
       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
     />
     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
@@ -439,6 +447,8 @@ const BlogSection = () => {
                 <img
                   src={post.image}
                   alt={post.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
@@ -592,9 +602,9 @@ const ContactHero = () => {
             loop
             muted
             playsInline
-            poster="/assets/images/fourteen.png" // Optional: Shows while video loads
+            preload="metadata"
+            poster="/assets/images/fourteen.png"
           >
-            {/* TODO: Replace with your actual video path */}
             <source src="/assets/images/contact.mov" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
@@ -685,6 +695,8 @@ const LocationSection = () => {
         <img
           src="/assets/images/bp.png"
           alt="Building Blueprint Sketch"
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-contain object-right p-4 md:p-1 mix-blend-multiply dark:mix-blend-lighten opacity-60 dark:opacity-40"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#F5F5F0] via-[#F5F5F0]/80 to-transparent dark:from-[#2A0A0A] dark:via-[#2A0A0A]/80" />
@@ -797,6 +809,8 @@ const Footer = () => {
         <img
           src="/assets/images/dpattern.jpg"
           alt="Background Pattern"
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover"
         />
       </div>
@@ -885,6 +899,8 @@ const Footer = () => {
             <img
               src="/assets/images/logo.png"
               alt="Treasure"
+              loading="lazy"
+              decoding="async"
               className="h-6 w-auto object-contain brightness-0 invert opacity-70"
             />
             <span className="text-xs text-[#EBEBE6]/30 uppercase tracking-wider font-['Oswald']">© 2025 Treasure</span>
@@ -962,6 +978,7 @@ const TestimonialSection = () => {
                   autoPlay
                   loop
                   muted
+                  preload="metadata"
                   className="w-full h-full object-cover"
                 />
               </AnimatePresence>

@@ -48,10 +48,12 @@ const HeroSection = ({ cmsData }: { cmsData?: any }) => {
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="absolute inset-0 w-full h-full"
         >
-          <img 
-            src={SLIDES[currentIndex].url} 
+          <img
+            src={SLIDES[currentIndex].url}
             alt={SLIDES[currentIndex].alt}
-            className="w-full h-full object-cover opacity-70" 
+            fetchPriority="high"
+            decoding="async"
+            className="w-full h-full object-cover opacity-70"
           />
         </motion.div>
       </AnimatePresence>

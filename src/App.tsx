@@ -1,51 +1,60 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './components/ThemeContext';
 import { UIProvider } from './context/UIContext';
 
 import LandingPage from './components/LandingPage';
-import AboutUsPage from './components/AboutUs';
-import OurServicesPage from './components/OurServices';
-import OurProjectsPage from './components/OurProjects';
-import ContactPage from './components/ContactPage';
 import Layout from './components/Layout';
-import Projects from './components/Projects';
 import WhatsAppButton from "./components/WhatsAppButton";
 import ScrollToTop from "./components/ScrollToTop";
 import InstagramButton from './components/InstagramButton';
-import BlogPage from './components/BlogPage';
-import BlogPostPage from './components/BlogPostPage';
 import { useCMS } from './hooks/useCMS';
 import { Toaster } from 'react-hot-toast';
 import { Phone, Instagram } from 'lucide-react';
 
-// Admin Components
-import AdminLogin from './components/Admin/AdminLogin';
-import AdminDashboard from './components/Admin/AdminDashboard';
-import ProtectedRoute from './components/Admin/ProtectedRoute';
+const AboutUsPage = lazy(() => import('./components/AboutUs'));
+const OurServicesPage = lazy(() => import('./components/OurServices'));
+const OurProjectsPage = lazy(() => import('./components/OurProjects'));
+const ContactPage = lazy(() => import('./components/ContactPage'));
+const Projects = lazy(() => import('./components/Projects'));
+const BlogPage = lazy(() => import('./components/BlogPage'));
+const BlogPostPage = lazy(() => import('./components/BlogPostPage'));
+
+const AdminLogin = lazy(() => import('./components/Admin/AdminLogin'));
+const AdminDashboard = lazy(() => import('./components/Admin/AdminDashboard'));
+const ProtectedRoute = lazy(() => import('./components/Admin/ProtectedRoute'));
+
+const RouteFallback = () => (
+  <div className="min-h-screen flex items-center justify-center bg-[#F9F9F7] dark:bg-[#2A0A0A]">
+    <div className="w-10 h-10 border-2 border-stone-400 border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
 const App = () => {
   return (
     <ThemeProvider>
       <UIProvider>
         <Router>
-          <ScrollToTop />  
+          <ScrollToTop />
           {/* ROUTES */}
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/about" element={<AboutUsPage />} />
-              <Route path="/services" element={<OurServicesPage />} />
-              <Route path="/projects" element={<OurProjectsPage />} />
-              <Route path="/projects/treasure" element={<Projects />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:slug" element={<BlogPostPage />} />
-            </Route>
+          <Suspense fallback={<RouteFallback />}>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/about" element={<AboutUsPage />} />
+                <Route path="/services" element={<OurServicesPage />} />
+                <Route path="/projects" element={<OurProjectsPage />} />
+                <Route path="/projects/treasure" element={<Projects />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/blog/:slug" element={<BlogPostPage />} />
+              </Route>
 
-            {/* ADMIN ROUTES */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/*" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-          </Routes>
+              {/* ADMIN ROUTES */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/*" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+            </Routes>
+          </Suspense>
 
           {/* WHATSAPP BUTTON - OUTSIDE ROUTES */}
           <Toaster position="top-right" />

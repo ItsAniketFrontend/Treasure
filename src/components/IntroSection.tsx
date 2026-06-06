@@ -58,10 +58,12 @@ const IntroSection = ({ cmsData }: { cmsData?: any }) => {
                   key={index}
                   src={src}
                   alt="Interior Showcase"
+                  loading="lazy"
+                  decoding="async"
                   initial={{ opacity: 0 }}
-                  animate={{ 
+                  animate={{
                     opacity: index === currentIndex ? 1 : 0,
-                    scale: index === currentIndex ? 1 : 1.1 
+                    scale: index === currentIndex ? 1 : 1.1
                   }}
                   transition={{ duration: 1.5, ease: "easeInOut" }}
                   className="absolute inset-0 w-full h-full object-cover"

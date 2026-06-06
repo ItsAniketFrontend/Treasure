@@ -7,7 +7,21 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-   server: {
+  build: {
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'motion': ['framer-motion'],
+          'supabase': ['@supabase/supabase-js'],
+          'quill': ['react-quill'],
+          'helmet': ['react-helmet-async'],
+        },
+      },
+    },
+  },
+  server: {
     proxy: {
       '/api': 'http://localhost:3000'
     }
