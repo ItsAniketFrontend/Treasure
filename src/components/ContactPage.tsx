@@ -52,7 +52,7 @@ const ContactPage = () => {
                   <h3 className="text-xs font-bold uppercase tracking-[0.2em] opacity-40">Office Address</h3>
                   <div className="flex gap-4">
                     <MapPin size={20} className="mt-1 opacity-60" />
-                    <p className="text-sm font-medium leading-loose opacity-80">{cmsData?.address || "Sector-5, Vidhyadhar Nagar, Jaipur"}</p>
+                    <p className="text-sm font-medium leading-loose opacity-80">{cmsData?.address || "Sector-5, Vidyadhar Nagar, Jaipur"}</p>
                   </div>
                 </div>
                 <div className="space-y-4">

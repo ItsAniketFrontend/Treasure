@@ -106,7 +106,7 @@ const IntroSection = ({ cmsData }: { cmsData?: any }) => {
             </p>
 
             <p className="font-['Playfair_Display'] text-stone-600 dark:text-stone-300 mb-6 leading-loose text-base lg:text-lg max-w-lg">
-              Every flat at Treasure, Vidhyadhar Nagar has been designed with one belief: that the finest apartments in Jaipur should feel timeless from the day they are finished. Between light and space, between family and home, between craft and comfort, it strikes a balance that is rare, and entirely intentional.
+              Every flat at Treasure, Vidyadhar Nagar has been designed with one belief: that the finest apartments in Jaipur should feel timeless from the day they are finished. Between light and space, between family and home, between craft and comfort, it strikes a balance that is rare, and entirely intentional.
             </p>
 
           </motion.div>

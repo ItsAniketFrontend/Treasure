@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 
-const DEFAULT_TITLE = 'Luxury Flats & Apartments in Vidhyadhar Nagar, Jaipur';
+const DEFAULT_TITLE = 'Luxury Flats & Apartments in Vidyadhar Nagar, Jaipur';
 const DEFAULT_DESCRIPTION =
-  'Discover luxury flats and apartments in Jaipur by Katewa Companies. Premium residences at Treasure, Vidhyadhar Nagar. Book a site visit today.';
+  'Discover luxury flats and apartments in Jaipur by Katewa Companies. Premium residences at Treasure, Vidyadhar Nagar. Book a site visit today.';
 const DEFAULT_IMAGE = '/assets/images/two.png';
 
 type SEOProps = {

@@ -103,7 +103,7 @@ const HeroSection = ({ cmsData }: { cmsData?: any }) => {
         >
           CRAFTED CURATED COMPLETE
           <br />
-          Luxury flats in Vidhyadhar Nagar Jaipur
+          Luxury flats in Vidyadhar Nagar Jaipur
         </motion.h1>
 
         {/* 5. CTA BUTTONS */}
@@ -142,7 +142,7 @@ const HeroSection = ({ cmsData }: { cmsData?: any }) => {
         className="absolute bottom-8 left-6 md:left-12 z-30"
       >
         <p className="font-playfair text-white text-xs md:text-sm tracking-wide opacity-90">
-          Sector-5, Vidhyadhar Nagar, Jaipur
+          Sector-5, Vidyadhar Nagar, Jaipur
         </p>
       </motion.div> */}
 

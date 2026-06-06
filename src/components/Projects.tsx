@@ -29,8 +29,8 @@ const Projects = () => {
     return (
         <div className={`min-h-screen w-full font-sans transition-colors duration-700 ${isDark ? 'bg-[#2A0A0A] text-white' : 'bg-[#F9F9F7] text-stone-800'}`}>
             <SEO
-              title="Treasure | Premium 2BHK & 3BHK Flats in Vidhyadhar Nagar, Jaipur"
-              description="Explore Treasure: 2BHK and 3BHK luxury flats in Vidhyadhar Nagar, Jaipur, with floor plans, finishes, and amenities curated for timeless living."
+              title="Treasure | Premium 2BHK & 3BHK Flats in Vidyadhar Nagar, Jaipur"
+              description="Explore Treasure: 2BHK and 3BHK luxury flats in Vidyadhar Nagar, Jaipur, with floor plans, finishes, and amenities curated for timeless living."
             />
             <main className="relative pl-0 md:pl-24">
 
