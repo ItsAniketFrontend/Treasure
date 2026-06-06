@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTheme } from './ThemeContext';
-import { Calendar, User, ArrowLeft, Share2 } from 'lucide-react';
+import { Calendar, User, ArrowLeft } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import SEO from './SEO';
 
@@ -152,15 +152,6 @@ const BlogPostPage = () => {
 
           {/* Sidebar / Extra info */}
           <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
-            <div className={`p-8 rounded-2xl border ${isDark ? 'border-stone-800 bg-black/20' : 'border-stone-200 bg-white'}`}>
-              <h4 className="text-xs uppercase tracking-[0.2em] font-bold mb-6">Share Story</h4>
-              <div className="flex gap-4">
-                {['Twitter', 'LinkedIn', 'Copy Link'].map(platform => (
-                  <button key={platform} aria-label={platform} className="p-2 border border-stone-700/30 rounded-full hover:bg-[#D4AF37] hover:text-white hover:border-[#D4AF37] transition-all"><Share2 size={16} /></button>
-                ))}
-              </div>
-            </div>
-
             <div className={`p-8 rounded-2xl border ${isDark ? 'border-stone-800 bg-black/20' : 'border-stone-200 bg-white'}`}>
               <h4 className="text-xs uppercase tracking-[0.2em] font-bold mb-4">Contact Treasure</h4>
               <p className="text-sm opacity-60 leading-relaxed mb-6 font-['Playfair_Display']">Explore the stories of luxury residences and design excellence through our blog.</p>
